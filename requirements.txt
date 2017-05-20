@@ -1,0 +1,16 @@
+appdirs==1.4.3
+canvasapi==0.3.0
+click==6.7
+Flask==0.12.2
+httplib2==0.9.2
+itsdangerous==0.24
+Jinja2==2.9.6
+MarkupSafe==1.0
+oauth==1.0.1
+oauth2==1.9.0.post1
+packaging==16.8
+-e git+https://github.com/ucfcdl/pylti.git@9adaa054e70c4062bbcb78e9f7de45acfa4f9d11#egg=PyLTI
+pyparsing==2.2.0
+requests==2.14.2
+six==1.10.0
+Werkzeug==0.12.2
