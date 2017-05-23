@@ -1,3 +1,4 @@
+from canvasapi import Canvas, course, assignment, quiz
 from flask import Flask, render_template, session, request, Response
 from pylti.flask import lti
 import settings
@@ -8,7 +9,7 @@ from logging.handlers import RotatingFileHandler
 app = Flask(__name__)
 app.secret_key = settings.secret_key
 app.config.from_object(settings.configClass)
-
+canvas = Canvas(settings.CANVAS_API_URL, settings.CANVAS_API_KEY)
 
 # ============================================
 # Logging
@@ -46,7 +47,7 @@ def error(exception=None):
 
 # LTI Launch
 @app.route('/launch', methods=['POST', 'GET'])
-@lti(error=error, request='initial', role='any', app=app)
+# @lti(error=error, request='initial', role='any', app=app)
 def launch(lti=lti):
     """
     Returns the launch page
