@@ -47,25 +47,66 @@ def error(exception=None):
 
 # LTI Launch
 @app.route('/launch', methods=['POST', 'GET'])
-# @lti(error=error, request='initial', role='any', app=app)
+@lti(error=error, request='initial', role='any', app=app)
 def launch(lti=lti):
     """
     Returns the launch page
     request.form will contain all the lti params
     """
+    session['custom_canvas_course_id'] = request.form.get(
+        'custom_canvas_course_id')
 
-    # example of getting lti data from the request
-    # let's just store it in our session
-    session['lis_person_name_full'] = request.form.get('lis_person_name_full')
-
-    # Write the lti params to the console
-    app.logger.info(json.dumps(request.form, indent=2))
+    options = ['assignments', 'quizzes', 'discussions']
 
     return render_template(
         'launch.htm.j2',
-        lis_person_name_full=session['lis_person_name_full']
+        options=options
     )
 
+
+# Select start date
+@app.route('/select_date', methods=['POST'])
+def date_select(lti=lti):
+    cid = session['custom_canvas_course_id']
+    this_course = canvas.get_course(course_id=cid)
+    course_json = this_course.to_json()
+
+    print this_course.attributes
+    print this_course.attributes['start_at']
+
+    # print course_json['start_at']
+
+    # start_date = this_course['start_at']
+    # end_date = this_course['end_at']
+    # selection = request.form['selection']
+
+    return render_template(
+        'date.htm.j2',
+        # start_date=start_date,
+        # end_date=end_date,
+        # selection=selection
+    )
+
+
+# Select assignments for dates
+@app.route('/assign', methods=['POST'])
+def assign_item(lti=lti):
+    cid = session['custom_canvas_course_id']
+    this_course = canvas.get_course(course_id=cid)
+
+    selection = request.form['selection']
+
+    if selection is 'assignments':
+        item_list = this_course.get_quizzes()
+    elif selection is 'quizzes':
+        item_list = this_course.get_quizzes()
+    elif selection is 'discussions':
+        item_list = this_course.get_discussion_topics()
+
+    if not item_list:
+        print "list is empty"
+
+    return render_template('date.htm.j2')
 
 # Home page
 @app.route('/', methods=['GET'])

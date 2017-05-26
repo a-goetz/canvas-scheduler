@@ -2,19 +2,17 @@
 {% block content %}
 
 <div>
-    <h1>LTI Launch Verified!</h1>
-    <p>{{msg}}</p>
+    <h1>Welcome to Canvas Scheduler</h1>
+    <p>Scheduling your course is just a few clicks away!</p>
 
-    <ul>
-        <li>lis_person_name_full is <b>{{ lis_person_name_full }}</b></li>
-        <li>View/Route: views.py '/launch'</li>
-        <li>Template: templates/launch.htm.j2</li>
-    </ul>
-
-    <p>Note: You can see all the LIT params in your server console.</p>
-
-    <p>Here's an example of displaying an image with Flask:</p>
-    <img src={{ url_for('static', filename='img/example.jpg') }} alt="Example image" />
+    <form action="{{ url_for('date_select', _external=True) }}" id="select_type" method="POST">
+        <select name="selection" id="selection">
+        {% for item in options %}
+            <option value="{{ item }}">{{ item.title() }}</option>
+        {% endfor %}
+        </select>
+        <input type="submit" value="Continue">
+    </form>
 </div>
 
 {% endblock content %}
