@@ -41,6 +41,24 @@ def error(exception=None):
         please contact support.''')
 
 
+# Set session variable to match variable from the course json.
+def set_vars(course_json, wanted_vars):
+    return_obj = {}
+
+    for item in wanted_vars:
+        this_item = 'course_' + item
+        try:
+            session[this_item] = course_json[item]
+            return_obj[this_item] = session[this_item]
+        except:
+            session[this_item] = None
+            return_obj[this_item] = session[this_item]
+            print 'Could not obtain value for: ' + this_item
+            pass
+
+    return return_obj
+
+
 # ============================================
 # Web Views / Routes
 # ============================================
@@ -69,44 +87,88 @@ def launch(lti=lti):
 def date_select(lti=lti):
     cid = session['custom_canvas_course_id']
     this_course = canvas.get_course(course_id=cid)
-    course_json = this_course.to_json()
+    course_json = json.loads(this_course.to_json())
 
-    print this_course.attributes
-    print this_course.attributes['start_at']
+    wanted_vars = [
+        'name', 'id', 'account_id', 'start_at',
+        'end_at', 'time_zone', 'course_code'
+    ]
+    course_obj = set_vars(course_json=course_json, wanted_vars=wanted_vars)
 
-    # print course_json['start_at']
+    session['assignment_type'] = request.form['selection']
+    selection = session['assignment_type']
 
-    # start_date = this_course['start_at']
-    # end_date = this_course['end_at']
-    # selection = request.form['selection']
+    assignment_type = session['assignment_type']
+    item_list = []
+    list_length = 0
+
+    if assignment_type == 'assignments':
+        assignments = this_course.get_assignments()
+        for item in assignments:
+            if 'online_quiz' not in item.submission_types \
+                    and 'discussion_topic' not in item.submission_types:
+                item_list.append(item)
+        list_length = len(item_list)
+
+    elif assignment_type == 'quizzes':
+        quizzes = this_course.get_quizzes()
+        for item in quizzes:
+            item_list.append(item)
+        list_length = len(item_list)
+
+    elif assignment_type == 'discussions':
+        discussions = this_course.get_discussion_topics()
+        for item in discussions:
+            item_list.append(item)
+        list_length = len(item_list)
+
+    else:
+        print "No assignments of that type"
+
+    session['assignment_list'] = item_list
+    ##############################################################
+    # cannot be used as json
 
     return render_template(
         'date.htm.j2',
-        # start_date=start_date,
-        # end_date=end_date,
-        # selection=selection
+        course_obj=course_obj,
+        selection=selection,
+        assignment_type=assignment_type,
+        list_length=list_length,
+        item_list=item_list
     )
 
 
 # Select assignments for dates
-@app.route('/assign', methods=['POST'])
-def assign_item(lti=lti):
-    cid = session['custom_canvas_course_id']
-    this_course = canvas.get_course(course_id=cid)
+@app.route('/assign_dates', methods=['POST'])
+def assign_dates(lti=lti):
+    '''
+    date_select    2017-06-15
+    time_select    23:59
+    repetitions    7
+    '''
+    import datetime
 
-    selection = request.form['selection']
+    # 2017-06-15 23:59
+    selected_date = request.form['date_select'] + \
+        ' ' + request.form['time_select']
+    start_date = datetime.datetime.strptime(selected_date, "%Y-%m-%d %H:%M")
+    repetitions = request.form['repetitions']
 
-    if selection is 'assignments':
-        item_list = this_course.get_quizzes()
-    elif selection is 'quizzes':
-        item_list = this_course.get_quizzes()
-    elif selection is 'discussions':
-        item_list = this_course.get_discussion_topics()
+    date_list = []
 
-    if not item_list:
-        print "list is empty"
+    for x in range(0, int(repetitions)+1):
+        days = 7*x
+        newdate = start_date + datetime.timedelta(days=days)
+        date_list.append(newdate)
 
-    return render_template('date.htm.j2')
+    return render_template(
+        'review.htm.j2',
+        selected_date=selected_date,
+        date_list=date_list,
+        # assignment_list=session['assignment_list']
+    )
+
 
 # Home page
 @app.route('/', methods=['GET'])

@@ -1,0 +1,16 @@
+{% extends 'base.htm.j2' %}
+{% block content %}
+
+<p>You made it to the review page</p>
+
+<p>{{ selected_date }}</p>
+
+{% for item in date_list %}
+<p>{{ item }}</p>
+{% endfor %}
+
+{% for item in assignment_list %}
+<!-- <p>Assignment Id: {{ item.id }}</p> -->
+{% endfor %}
+
+{% endblock content %}
