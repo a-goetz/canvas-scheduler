@@ -25,6 +25,8 @@ handler.setLevel(logging.getLevelName(settings.LOG_LEVEL))
 handler.setFormatter(formatter)
 app.logger.addHandler(handler)
 
+ITEM_LIST = []
+
 
 # ============================================
 # Utility Functions
@@ -125,9 +127,8 @@ def date_select(lti=lti):
     else:
         print "No assignments of that type"
 
-    session['assignment_list'] = item_list
-    ##############################################################
-    # cannot be used as json
+    global ITEM_LIST
+    ITEM_LIST = item_list
 
     return render_template(
         'date.htm.j2',
@@ -162,11 +163,26 @@ def assign_dates(lti=lti):
         newdate = start_date + datetime.timedelta(days=days)
         date_list.append(newdate)
 
+    global ITEM_LIST
+    assignment_type = session['assignment_type']
+
+    date_list = enumerate(date_list)
+
     return render_template(
-        'review.htm.j2',
+        'assign.htm.j2',
         selected_date=selected_date,
         date_list=date_list,
-        # assignment_list=session['assignment_list']
+        item_list=ITEM_LIST,
+        assignment_type=assignment_type
+    )
+
+
+# Select assignments for dates
+@app.route('/process_complete', methods=['POST'])
+def process_complete(lti=lti):
+
+    return render_template(
+        'review.htm.j2'
     )
 
 
