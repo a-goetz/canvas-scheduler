@@ -1,4 +1,4 @@
-from canvasapi import Canvas, course, assignment, quiz
+from canvasapi import Canvas
 from flask import Flask, render_template, session, request, Response
 from pylti.flask import lti
 import settings
@@ -9,7 +9,7 @@ from logging.handlers import RotatingFileHandler
 app = Flask(__name__)
 app.secret_key = settings.secret_key
 app.config.from_object(settings.configClass)
-canvas = Canvas(settings.CANVAS_API_URL, settings.CANVAS_API_KEY)
+CANVAS = Canvas(settings.CANVAS_API_URL, settings.CANVAS_API_KEY)
 
 # ============================================
 # Logging
@@ -87,9 +87,10 @@ def launch(lti=lti):
 # Select start date
 @app.route('/select_date', methods=['POST'])
 def date_select(lti=lti):
+
     cid = session['custom_canvas_course_id']
-    this_course = canvas.get_course(course_id=cid)
-    course_json = json.loads(this_course.to_json())
+    course = CANVAS.get_course(course_id=cid)
+    course_json = json.loads(course.to_json())
 
     wanted_vars = [
         'name', 'id', 'account_id', 'start_at',
@@ -105,7 +106,7 @@ def date_select(lti=lti):
     list_length = 0
 
     if assignment_type == 'assignments':
-        assignments = this_course.get_assignments()
+        assignments = course.get_assignments()
         for item in assignments:
             if 'online_quiz' not in item.submission_types \
                     and 'discussion_topic' not in item.submission_types:
@@ -113,13 +114,13 @@ def date_select(lti=lti):
         list_length = len(item_list)
 
     elif assignment_type == 'quizzes':
-        quizzes = this_course.get_quizzes()
+        quizzes = course.get_quizzes()
         for item in quizzes:
             item_list.append(item)
         list_length = len(item_list)
 
     elif assignment_type == 'discussions':
-        discussions = this_course.get_discussion_topics()
+        discussions = course.get_discussion_topics()
         for item in discussions:
             item_list.append(item)
         list_length = len(item_list)
@@ -166,8 +167,6 @@ def assign_dates(lti=lti):
     global ITEM_LIST
     assignment_type = session['assignment_type']
 
-    date_list = enumerate(date_list)
-
     return render_template(
         'assign.htm.j2',
         selected_date=selected_date,
@@ -180,9 +179,56 @@ def assign_dates(lti=lti):
 # Select assignments for dates
 @app.route('/process_complete', methods=['POST'])
 def process_complete(lti=lti):
+    import datetime
+    from time import strftime
+
+    cid = session['custom_canvas_course_id']
+    course = CANVAS.get_course(course_id=cid)
+
+    assignment_type = session['assignment_type']
+
+    assignment_list = []
+    r = request.form
+    for key, value in r.iteritems():
+        assignment_list.append(
+            {
+                'date': key,
+                'assignment': value
+            }
+        )
+
+    canvas_obj_list = []
+
+    for item in assignment_list:
+        # need to turn from
+        # 2017-06-09 23:59:00
+        # to
+        # 2012-07-01T23:59:00-06:00
+        # The day/time the assignment is due.
+        # Accepts times in ISO 8601 format, e.g. 2014-10-21T18:48:00Z.
+
+        date = datetime.datetime.strptime(item['date'], "%Y-%m-%d %H:%M:%S")
+        date = date.strftime("%Y-%m-%dT%H:%M:%S-06:00")
+
+        if assignment_type == 'assignments':
+            this_assignment = course.get_assignment(item['assignment'])
+            this_assignment.edit(due_at=date)
+            canvas_obj_list.append(this_assignment)
+
+        elif assignment_type == 'quizzes':
+            this_quiz = course.get_quiz(item['assignment'])
+            this_quiz.edit(due_at=date)
+            canvas_obj_list.append(this_quiz)
+
+        elif assignment_type == 'discussions':
+            this_discussion = course.get_discussion_topic(item['assignment'])
+            this_discussion.edit(lock_at=date)
+            canvas_obj_list.append(this_discussion)
 
     return render_template(
-        'review.htm.j2'
+        'review.htm.j2',
+        assignment_list=assignment_list,
+        canvas_obj_list=canvas_obj_list
     )
 
 

@@ -1,20 +1,21 @@
 {% extends 'base.htm.j2' %}
 {% block content %}
 
-<p>You made it to the assign page</p>
-<form action="{{ url_for('process_complete', _external=True) }}" >
+<form action="{{ url_for('process_complete', _external=True) }}" method="POST">
 {% for date in date_list %}
 <p>{{ date }}</p>
-<select value="{{ item_list[idx] }}">
+<select id="{{ date }}" name="{{ date }}">
 {% for item in item_list %}
 {% if assignment_type == 'assignments' %}
-	<option>{{ item.name }}</option>
+	<option value="{{ item.id }}">{{ item.name }}</option>
 	{% else %}
-	<option>{{ item.title }}</option>
+	<option value="{{ item.id }}">{{ item.title }}</option>
 	{% endif %}
 {% endfor %}
 </select>
 {% endfor %}
+
+<p><input type="submit" value="Finalize" /></p>
 </form>
 
 {% endblock content %}

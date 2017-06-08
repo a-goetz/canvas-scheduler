@@ -3,4 +3,12 @@
 
 <p>You made it to the review page</p>
 
+{% for item in assignment_list %}
+<p>Key: {{item.assignment}}, Value: {{item.date}}</p>
+{% endfor %}
+
+{% for item in canvas_obj_list %}
+<p>{{ item }}</p>
+{% endfor %}
+
 {% endblock content %}
