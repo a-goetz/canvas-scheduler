@@ -200,29 +200,30 @@ def process_complete(lti=lti):
     canvas_obj_list = []
 
     for item in assignment_list:
-        # need to turn from
-        # 2017-06-09 23:59:00
-        # to
-        # 2012-07-01T23:59:00-06:00
-        # The day/time the assignment is due.
-        # Accepts times in ISO 8601 format, e.g. 2014-10-21T18:48:00Z.
 
-        date = datetime.datetime.strptime(item['date'], "%Y-%m-%d %H:%M:%S")
-        date = date.strftime("%Y-%m-%dT%H:%M:%S-06:00")
+        date = datetime.datetime.strptime(
+            item['date'], "%Y-%m-%d %H:%M:%S"
+        )
 
         if assignment_type == 'assignments':
+            # Accepts times in ISO 8601 format, e.g. 2014-10-21T18:48:00Z.
+            date = date.strftime("%Y-%m-%dT%H:%M:%S-06:00")
             this_assignment = course.get_assignment(item['assignment'])
-            this_assignment.edit(due_at=date)
+            new_assignment = {"due_at": date}
+            this_assignment.edit(assignment=new_assignment)
             canvas_obj_list.append(this_assignment)
 
         elif assignment_type == 'quizzes':
+            # Accepts times in ISO 8601 format, e.g. 2011-10-21T18:48Z.
+            date = date.strftime("%Y-%m-%dT%H:%M:%S-06:00")
             this_quiz = course.get_quiz(item['assignment'])
-            this_quiz.edit(due_at=date)
+            new_quiz = {"due_at", date}
+            this_quiz.edit(quiz=new_quiz)
             canvas_obj_list.append(this_quiz)
 
         elif assignment_type == 'discussions':
             this_discussion = course.get_discussion_topic(item['assignment'])
-            this_discussion.edit(lock_at=date)
+            this_discussion.update(lock_at=date)
             canvas_obj_list.append(this_discussion)
 
     return render_template(
