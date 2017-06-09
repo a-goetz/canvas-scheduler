@@ -217,7 +217,7 @@ def process_complete(lti=lti):
             # Accepts times in ISO 8601 format, e.g. 2011-10-21T18:48Z.
             date = date.strftime("%Y-%m-%dT%H:%M:%S-06:00")
             this_quiz = course.get_quiz(item['assignment'])
-            new_quiz = {"due_at", date}
+            new_quiz = {"due_at": date}
             this_quiz.edit(quiz=new_quiz)
             canvas_obj_list.append(this_quiz)
 
