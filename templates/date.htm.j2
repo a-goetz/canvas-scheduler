@@ -1,9 +1,6 @@
 {% extends 'base.htm.j2' %}
 {% block content %}
 
-<p>You made it to Date selection</p>
-<p>{{ course_obj }}</p>
-
 <h1>Select when you want your first {{ selection }} to start.</h1>
 
 <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">

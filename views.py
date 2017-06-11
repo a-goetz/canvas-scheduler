@@ -9,7 +9,14 @@ from logging.handlers import RotatingFileHandler
 app = Flask(__name__)
 app.secret_key = settings.secret_key
 app.config.from_object(settings.configClass)
+
+
+# ============================================
+# Globals
+# ============================================
+
 CANVAS = Canvas(settings.CANVAS_API_URL, settings.CANVAS_API_KEY)
+ITEM_LIST = []
 
 # ============================================
 # Logging
@@ -25,26 +32,32 @@ handler.setLevel(logging.getLevelName(settings.LOG_LEVEL))
 handler.setFormatter(formatter)
 app.logger.addHandler(handler)
 
-ITEM_LIST = []
-
 
 # ============================================
 # Utility Functions
 # ============================================
 
 def return_error(msg):
+    """
+    Return the error template with error message.
+    """
     return render_template('error.htm.j2', msg=msg)
 
 
 def error(exception=None):
+    """
+    Handle error
+    """
     app.logger.error("PyLTI error: {}".format(exception))
     return return_error('''Authentication error,
         please refresh and try again. If this error persists,
         please contact support.''')
 
 
-# Set session variable to match variable from the course json.
 def set_vars(course_json, wanted_vars):
+    """
+    Set session variable to match variable from the course json.
+    """
     return_obj = {}
 
     for item in wanted_vars:
@@ -87,6 +100,19 @@ def launch(lti=lti):
 # Select start date
 @app.route('/select_date', methods=['POST'])
 def date_select(lti=lti):
+    """
+    Creates dates starting with the date/time indicated
+        by the from from date.htm.j2. Creates a number of
+        dates based on the 'repetitions' parameter.
+    :param date_select: String, format example: '2017-06-15'
+    :param time_select: String, format example: '23:59'
+    :param repetitions: String, format example: '7'
+
+    :methods: Uses set_vars() from the utility functions in this file.
+
+    :returns: assign.htm.j2 page that allows the user to
+        attach the dates to assignments that exist in the course.
+    """
 
     cid = session['custom_canvas_course_id']
     course = CANVAS.get_course(course_id=cid)
@@ -137,7 +163,7 @@ def date_select(lti=lti):
         selection=selection,
         assignment_type=assignment_type,
         list_length=list_length,
-        item_list=item_list
+        item_list=ITEM_LIST
     )
 
 
@@ -145,9 +171,18 @@ def date_select(lti=lti):
 @app.route('/assign_dates', methods=['POST'])
 def assign_dates(lti=lti):
     '''
-    date_select    2017-06-15
-    time_select    23:59
-    repetitions    7
+    Creates dates starting with the date/time indicated
+        by the from from date.htm.j2. Creates a number of
+        dates based on the 'repetitions' parameter.
+    :param date_select: String, format example: '2017-06-15'
+    :param time_select: String, format example: '23:59'
+    :param repetitions: String, format example: '7'
+
+    :methods: Uses python Datetime library to adjust and combine
+        the dates provided.
+
+    :returns: assign.htm.j2 page that allows the user to
+        attach the dates to assignments that exist in the course.
     '''
     import datetime
 
@@ -179,8 +214,19 @@ def assign_dates(lti=lti):
 # Select assignments for dates
 @app.route('/process_complete', methods=['POST'])
 def process_complete(lti=lti):
+    """
+    Completes the process of changing the dates.
+
+    :methods: uses assignment.edit(), quiz.edit(), or discussion.update()
+        from the canvasapi python library. Uses python Datetime library to
+        adjust the given times.
+
+    :param request: The form from assign.htm.j2. Contains a 'key' indicating
+        the desired date, and an 'assignment' containing the assignment id.
+
+    :returns: review page with updated assignment information.
+    """
     import datetime
-    from time import strftime
 
     cid = session['custom_canvas_course_id']
     course = CANVAS.get_course(course_id=cid)
@@ -236,6 +282,10 @@ def process_complete(lti=lti):
 # Home page
 @app.route('/', methods=['GET'])
 def index(lti=lti):
+    """
+    Home page for the lti. Displays information and
+    links to the xml and launch pages.
+    """
     return render_template('index.htm.j2')
 
 
