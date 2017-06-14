@@ -17,6 +17,7 @@ app.config.from_object(settings.configClass)
 
 CANVAS = Canvas(settings.CANVAS_API_URL, settings.CANVAS_API_KEY)
 ITEM_LIST = []
+COURSE_DATA = {}
 
 # ============================================
 # Logging
@@ -58,16 +59,17 @@ def set_vars(course_json, wanted_vars):
     """
     Set session variable to match variable from the course json.
     """
+    global COURSE_DATA
     return_obj = {}
 
     for item in wanted_vars:
         this_item = 'course_' + item
         try:
-            session[this_item] = course_json[item]
-            return_obj[this_item] = session[this_item]
+            COURSE_DATA[this_item] = course_json[item]
+            return_obj[this_item] = COURSE_DATA[this_item]
         except:
-            session[this_item] = None
-            return_obj[this_item] = session[this_item]
+            COURSE_DATA[this_item] = None
+            return_obj[this_item] = COURSE_DATA[this_item]
             print 'Could not obtain value for: ' + this_item
             pass
 
@@ -93,7 +95,8 @@ def launch(lti=lti):
 
     return render_template(
         'launch.htm.j2',
-        options=options
+        options=options,
+        variables=request.form
     )
 
 
@@ -156,10 +159,11 @@ def date_select(lti=lti):
 
     global ITEM_LIST
     ITEM_LIST = item_list
+    global COURSE_DATA
 
     return render_template(
         'date.htm.j2',
-        course_obj=course_obj,
+        course_obj=COURSE_DATA,
         selection=selection,
         assignment_type=assignment_type,
         list_length=list_length,

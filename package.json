@@ -1,0 +1,22 @@
+{
+  "name": "canvas-scheduler",
+  "version": "1.0.0",
+  "description": "Scheduling repeating events in canvas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a-goetz/canvas-scheduler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a-goetz/canvas-scheduler/issues"
+  },
+  "homepage": "https://github.com/a-goetz/canvas-scheduler#readme",
+  "devDependencies": {
+    "bower": "^1.8.0"
+  }
+}

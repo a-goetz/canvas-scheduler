@@ -5,6 +5,8 @@
     <h1>Welcome to Canvas Scheduler</h1>
     <p>Scheduling your course is just a few clicks away!</p>
 
+    <p>{{ variables }}</p>
+
     <form action="{{ url_for('date_select', _external=True) }}" id="select_type" method="POST">
         <select name="selection" id="selection">
         {% for item in options %}
