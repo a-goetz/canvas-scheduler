@@ -10,13 +10,17 @@ var size = require('gulp-size');
 // tasks
 
 gulp.task('transform', function () {
-  // add task
+    var stream = gulp.src('./project/static/scripts/jsx/*.js')
+  	   .pipe(gulpBrowser.browserify({transform: ['reactify']}))
+ 	   .pipe(gulp.dest('./project/static/scripts/js/'))
+  	   .pipe(size());
+    return stream;
 });
-
 gulp.task('del', function () {
-  // add task
+    // add task
 });
 
-gulp.task('default', function() {
-  console.log("hello!");
+gulp.task('default', function () {
+    gulp.start('transform');
+    gulp.watch('./project/static/scripts/jsx/*.js', ['transform']);
 });
