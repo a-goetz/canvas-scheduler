@@ -55,6 +55,16 @@ def error(exception=None):
         please contact support.''')
 
 
+def format_date_from_iso(iso):
+    """
+    """
+    # 2017-05-15T06:00:00Z
+    import datetime
+    date = datetime.datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ")
+    date = date.strftime("%Y-%m-%d")
+    return date
+
+
 def set_vars(course_json, wanted_vars):
     """
     Set session variable to match variable from the course json.
@@ -73,7 +83,16 @@ def set_vars(course_json, wanted_vars):
             print 'Could not obtain value for: ' + this_item
             pass
 
-    return return_obj
+    if COURSE_DATA['course_start_at'] is not None:
+        COURSE_DATA['formatted_start'] = \
+            format_date_from_iso(COURSE_DATA['course_start_at'])
+    else:
+        COURSE_DATA['formatted_start'] = None
+    if COURSE_DATA['course_end_at'] is not None:
+        COURSE_DATA['formatted_end'] = \
+            format_date_from_iso(COURSE_DATA['course_end_at'])
+    else:
+        COURSE_DATA['formatted_end'] = None
 
 
 # ============================================
@@ -125,7 +144,7 @@ def date_select(lti=lti):
         'name', 'id', 'account_id', 'start_at',
         'end_at', 'time_zone', 'course_code'
     ]
-    course_obj = set_vars(course_json=course_json, wanted_vars=wanted_vars)
+    set_vars(course_json=course_json, wanted_vars=wanted_vars)
 
     session['assignment_type'] = request.form['selection']
     selection = session['assignment_type']

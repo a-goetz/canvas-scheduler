@@ -35,8 +35,6 @@ PYLTI_CONFIG = {
 }
 
 # Store application wide settings here
-# For example: we could store our app's api keys for canvas
-#
-# CANVAS_API_URL = ''
-# CANVAS_API_KEY = ''
-#
+
+CANVAS_API_URL = ''
+CANVAS_API_KEY = ''
