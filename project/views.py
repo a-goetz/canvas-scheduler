@@ -96,7 +96,7 @@ def launch(lti=lti):
     return render_template(
         'launch.htm.j2',
         options=options,
-        variables=request.form
+        variables=request.form.to_dict()
     )
 
 

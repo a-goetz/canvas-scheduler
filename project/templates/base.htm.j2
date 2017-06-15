@@ -3,31 +3,29 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset='utf-8'/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 
     <!-- ReactJS -->
     <script src="{{ url_for('static', filename='bower_components/react/react.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/react/react-dom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/js/main.js') }}"></script>
+    
+    <!-- Local Scripts -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
     <title>LTI Template</title>
 </head>
 
 <body>
 
-    <div id="container">
-        <div id="main"></div>
-    </div>
-
-    <!-- scripts -->
-    <script src="{{ url_for('static', filename='bower_components/react/react.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/react/react-dom.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='scripts/js/main.js') }}"></script>
-
     {% block content %} {% endblock %}
 
     <footer>
         <p>Built using the <a href="https://github.com/ucfopen/lti-template-flask">UCF LTI Template for Python and Flask</a> 2016 &ndash; <script>document.write(new Date().getFullYear());</script></p>
     </footer>
+
 </body>
 </html>

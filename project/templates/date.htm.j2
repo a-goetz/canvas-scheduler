@@ -1,14 +1,17 @@
 {% extends 'base.htm.j2' %}
 {% block content %}
 
+<script type="text/javascript">
+	traceJSON({{ course_obj|tojson }});
+</script>
+
 <h1>Select when you want your first {{ selection }} to start.</h1>
 
 <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
+
+	<!-- THESE INPUTS ARE NOT SUPPORTED BY MOZILLA -->
 	<label>
 		Due Date: <input type="date" name="date_select" id="date_select" required>
-		<script>
-			if ( $('#date_select')[0].type != 'date' ) $('#date_select').datepicker();
-		</script>
 	</label>
 	<label>
 		Due Time: <input type="time" name="time_select" id="time_select" value="23:59" required>
@@ -18,9 +21,10 @@
 	</label>
 	<input type="submit" value="Submit" />
 </form>
-<p>{{ course_obj }}</p>
 
 <h2>Course Information</h2>
+<div id="date_course_info"></div>
+
 <p>Course Start: {{ course_obj.course_start_at }}</p>
 <p>Course End: {{ course_obj.course_end_at }}</p>
 
@@ -36,5 +40,7 @@
 
 {% endfor %}
 </ul>
+
+<!-- <script type="text/javascript" src="{{ url_for('static', filename='scripts/js/date.js') }}"></script> -->
 
 {% endblock content %}
