@@ -16,7 +16,7 @@ app.config.from_object(settings.configClass)
 # ============================================
 
 CANVAS = Canvas(settings.CANVAS_API_URL, settings.CANVAS_API_KEY)
-ITEM_LIST = []
+ASSIGNMENTS = []
 COURSE_DATA = {}
 
 # ============================================
@@ -110,12 +110,8 @@ def launch(lti=lti):
     session['custom_canvas_course_id'] = request.form.get(
         'custom_canvas_course_id')
 
-    options = ['assignments', 'quizzes', 'discussions']
-
     return render_template(
-        'launch.htm.j2',
-        options=options,
-        variables=request.form.to_dict()
+        'launch.htm.j2'
     )
 
 
@@ -123,17 +119,7 @@ def launch(lti=lti):
 @app.route('/select_date', methods=['POST'])
 def date_select(lti=lti):
     """
-    Creates dates starting with the date/time indicated
-        by the from from date.htm.j2. Creates a number of
-        dates based on the 'repetitions' parameter.
-    :param date_select: String, format example: '2017-06-15'
-    :param time_select: String, format example: '23:59'
-    :param repetitions: String, format example: '7'
 
-    :methods: Uses set_vars() from the utility functions in this file.
-
-    :returns: assign.htm.j2 page that allows the user to
-        attach the dates to assignments that exist in the course.
     """
 
     cid = session['custom_canvas_course_id']
@@ -144,6 +130,7 @@ def date_select(lti=lti):
         'name', 'id', 'account_id', 'start_at',
         'end_at', 'time_zone', 'course_code'
     ]
+    # Stores desired variables in global COURSE_DATA
     set_vars(course_json=course_json, wanted_vars=wanted_vars)
 
     session['assignment_type'] = request.form['selection']
@@ -176,8 +163,8 @@ def date_select(lti=lti):
     else:
         print "No assignments of that type"
 
-    global ITEM_LIST
-    ITEM_LIST = item_list
+    global ASSIGNMENTS
+    ASSIGNMENTS = item_list
     global COURSE_DATA
 
     return render_template(
@@ -186,8 +173,28 @@ def date_select(lti=lti):
         selection=selection,
         assignment_type=assignment_type,
         list_length=list_length,
-        item_list=ITEM_LIST
+        item_list=ASSIGNMENTS
     )
+
+
+# Select start date
+@app.route('/get_course_data', methods=['POST'])
+def get_course_data(lti=lti):
+    global COURSE_DATA
+    return json.dumps(COURSE_DATA)
+
+
+# Select start date
+@app.route('/get_assignment_data', methods=['POST'])
+def get_assignment_data(lti=lti):
+    global ASSIGNMENTS
+    return json.dumps(ASSIGNMENTS)
+
+
+# Select start date
+@app.route('/get_assignment_type', methods=['POST'])
+def get_assignment_type(lti=lti):
+    return session['assignment_type']
 
 
 # Select assignments for dates
@@ -215,21 +222,26 @@ def assign_dates(lti=lti):
     start_date = datetime.datetime.strptime(selected_date, "%Y-%m-%d %H:%M")
     repetitions = request.form['repetitions']
 
+    daytotal = 1
+
+    if request.form['recurring_weeks'] > 0:
+        daytotal = int(request.form['recurring_weeks']) * 7
+
     date_list = []
 
     for x in range(0, int(repetitions)+1):
-        days = 7*x
+        days = daytotal*x
         newdate = start_date + datetime.timedelta(days=days)
         date_list.append(newdate)
 
-    global ITEM_LIST
+    global ASSIGNMENTS
     assignment_type = session['assignment_type']
 
     return render_template(
         'assign.htm.j2',
         selected_date=selected_date,
         date_list=date_list,
-        item_list=ITEM_LIST,
+        item_list=ASSIGNMENTS,
         assignment_type=assignment_type
     )
 

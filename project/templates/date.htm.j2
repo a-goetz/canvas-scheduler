@@ -9,8 +9,9 @@
 
 <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
 
-	<!-- THESE INPUTS ARE NOT SUPPORTED BY MOZILLA -->
-	{% if course_obj.formatted_start and course_obj.formatted_end %}
+<div id="date_select_form"></div>
+
+<!--	{% if course_obj.formatted_start and course_obj.formatted_end %}
 	<label>
 		Due Date: <input 
 			type="date"
@@ -20,18 +21,33 @@
 			max="{{ course_obj.formatted_end }}"
 			required>
 	</label>
+	{% else %}
+	<label>
+		Due Date: <input 
+			type="date"
+			name="date_select"
+			id="date_select"
+			required>
+	</label>
 	{% endif %}
 	<label>
 		Due Time: <input type="time" name="time_select" id="time_select" value="23:59" required>
 	</label>
-	<label>
-		Repetitions: <input type="number" name="repetitions" id="repetitions" min="0" max="{{ list_length - 1 }}" value="{{ list_length - 1 }}" id="repetitions" required>
-	</label>
-	<input type="submit" value="Submit" />
+	<h2>Repetitions</h2>
+	<p>
+		<label>
+			Every <input type="number" name="recurring_weeks" id="recurring_weeks" value="1" min="0" max="3"> weeks
+		</label>
+	</p>
+	<p>
+		<label>
+			Number of repetitions: <input type="number" name="repetitions" id="repetitions" min="0" max="{{ list_length - 1 }}" value="{{ list_length - 1 }}" required>
+		</label>
+	</p>
+	<input type="submit" value="Submit" /> -->
 </form>
 
 <h2>Course Information</h2>
-<div id="date_course_info"></div>
 
 {% if course_obj.course_start_at %}
 <p>Course Start: {{ course_obj.formatted_start }}</p>
@@ -53,5 +69,7 @@
 
 {% endfor %}
 </ul>
+
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/js/select_date.js') }}"></script>
 
 {% endblock content %}

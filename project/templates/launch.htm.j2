@@ -1,19 +1,15 @@
 {% extends 'base.htm.j2' %}
 {% block content %}
 
-<script type="text/javascript">
-    traceJSON({{ variables|tojson }});
-</script>
-
 <div>
     <h1>Welcome to Canvas Scheduler</h1>
     <p>Scheduling your course is just a few clicks away!</p>
 
     <form action="{{ url_for('date_select', _external=True) }}" id="select_type" method="POST">
         <select name="selection" id="selection">
-        {% for item in options %}
-            <option value="{{ item }}">{{ item.title() }}</option>
-        {% endfor %}
+            <option value="assignments">Assignments</option>
+            <option value="quizzes">Quizzes</option>
+            <option value="discussions">Discussions</option>
         </select>
         <input type="submit" value="Continue">
     </form>

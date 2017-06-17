@@ -22,6 +22,8 @@
     "gulp": "^3.9.1",
     "gulp-browser": "^2.1.4",
     "gulp-size": "^2.1.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "reactify": "^1.1.1"
   }
 }
