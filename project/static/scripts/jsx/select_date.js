@@ -1,3 +1,14 @@
+var AJAXRequest = function(type, url, callback) {
+    var postRequest = new XMLHttpRequest();
+    postRequest.addEventListener("load", 
+        function() {
+            var data = JSON.parse(this.responseText);
+            callback(data);
+        });
+    postRequest.open(type, url);
+    postRequest.send();
+}
+
 function getCourseData() {
     var postRequest = new XMLHttpRequest();
     var rUrl = "/get_course_data"
@@ -18,8 +29,28 @@ function getAssignmentCount() {
 
 var DateSelectForm = React.createClass({
 
+    getInitialState: function() {
+        var assignmentCount = getAssignmentCount();
+        // this.setState({maxRepetitions: assignmentCount});
+        return {maxRepetitions: assignmentCount}
+    },
+
+    dateChange: function(event){
+        // this.setState({searchString:event.target.value});
+
+        //test
+        // this.setState({maxRepetitions:event.target.value})
+        console.log(event.target.value);
+        console.log("Date Change recognized by form");
+    },
+
     render: function() {
 
+        // var courseData = AJAXRequest(
+        //     "POST",
+        //     "/get_assignment_count",
+        //     function(data){return data;}
+        // );
         var courseData = getCourseData();
         var courseStart = '';
         var courseEnd = '';
@@ -31,14 +62,16 @@ var DateSelectForm = React.createClass({
             courseEnd = courseData.formatted_end;
         }
 
-        var assignmentCount = getAssignmentCount();
-
         return (
             <div>
-                <DateInput start={courseStart} end={courseEnd} />
+                <DateInput
+                    start={ courseStart }
+                    end={ courseEnd }
+                    onChange={ this.dateChange }
+                />
                 <h2>Repetitions</h2>
                 <WeekInput />
-                <RepetitionsInput count={assignmentCount} />
+                <RepetitionsInput count={ this.state.maxRepetitions } />
                 <input type="submit" value="Submit" />
             </div>
         )
@@ -46,12 +79,12 @@ var DateSelectForm = React.createClass({
 
 });
 
-class DateInput extends React.Component {
+var DateInput = React.createClass({
 // Uses start and end dates from 
 // COURSE_DATA['formatted_start']
 // COURSE_DATA['formatted_end']
-
-    render() {
+    // sets initial state
+    render: function() {
 
         return (
             <div>
@@ -63,6 +96,7 @@ class DateInput extends React.Component {
                         id="date_select"
                         min={ this.props.start }
                         max={ this.props.end }
+                        onChange={this.props.onChange }
                         required
                     />
                 </label>
@@ -72,18 +106,27 @@ class DateInput extends React.Component {
                         type="time"
                         name="time_select"
                         id="time_select"
-                        value="23:59"
+                        defaultValue="23:59"
                         required
                     />
                 </label>
             </div>
         )
     }
-}
+});
 
-class WeekInput extends React.Component {
+var WeekInput = React.createClass({
+    // sets initial state
+    getInitialState: function(){
+        return { max: 4 };
+    },
 
-    render() {
+    handleChange: function(event){
+        // this.setState({searchString:event.target.value});
+        console.log("Weeks Changed");
+    },
+
+    render: function() {
 
         return (
             <p>
@@ -95,18 +138,28 @@ class WeekInput extends React.Component {
                         id="recurring_weeks"
                         min="0"
                         defaultValue={ 1 }
-                        max="4"
+                        max={ this.state.max }
+                        onChange={ this.handleChange } 
+                        required
                     />&nbsp;
                     week(s)
                 </label>
             </p>
         )
     }
-}
+});
 
-class RepetitionsInput extends React.Component {
+var RepetitionsInput = React.createClass({
 // number of possible repetions needs to be calculated
-    render() {
+    // sets initial state
+    getInitialState: function(){
+        return { count: '' };
+    },
+    handleChange: function(event){
+        // this.setState({searchString:event.target.value});
+        console.log("Repetitions Changed");
+    },
+    render: function() {
 
         return (
             <p>
@@ -119,13 +172,14 @@ class RepetitionsInput extends React.Component {
                         min="0"
                         max={ this.props.count-1 }
                         defaultValue={ this.props.count-1 }
+                        onChange={this.handleChange } 
                         required
                     />
                 </label>
             </p>
         )
     }
-}
+});
 
 ReactDOM.render(
     <DateSelectForm />,
