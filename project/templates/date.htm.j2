@@ -5,7 +5,7 @@
 	traceJSON({{ course_obj|tojson }});
 </script>
 
-<h1>Select when you want your first {{ selection }} to start.</h1>
+<h1>Select when you want your first {{ assignment_type }} to start.</h1>
 
 <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
 	<div id="date_select_form"></div>

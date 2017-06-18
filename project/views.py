@@ -134,7 +134,6 @@ def date_select(lti=lti):
     set_vars(course_json=course_json, wanted_vars=wanted_vars)
 
     session['assignment_type'] = request.form['selection']
-    selection = session['assignment_type']
 
     global ASSIGNMENTS
     ASSIGNMENTS = []
@@ -163,7 +162,6 @@ def date_select(lti=lti):
     return render_template(
         'date.htm.j2',
         course_obj=COURSE_DATA,
-        selection=selection,
         assignment_type=session['assignment_type'],
         list_length=len(ASSIGNMENTS),
         item_list=ASSIGNMENTS
