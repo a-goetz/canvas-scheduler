@@ -1,13 +1,44 @@
+function getCourseData() {
+    var postRequest = new XMLHttpRequest();
+    var rUrl = "/get_course_data"
+    postRequest.open("POST", rUrl, false);
+    postRequest.send(null);
+    rJSON = JSON.parse(postRequest.response);
+    return rJSON;
+}
+
+function getAssignmentCount() {
+    var postRequest = new XMLHttpRequest();
+    var rUrl = "/get_assignment_count"
+    postRequest.open("POST", rUrl, false);
+    postRequest.send(null);
+    rString = postRequest.responseText;
+    return rString;
+}
+
 var DateSelectForm = React.createClass({
 
     render: function() {
 
+        var courseData = getCourseData();
+        var courseStart = '';
+        var courseEnd = '';
+
+        if (courseData.course_start_at != null) {
+            courseStart = courseData.formatted_start;
+        }
+        if (courseData.course_end_at != null) {
+            courseEnd = courseData.formatted_end;
+        }
+
+        var assignmentCount = getAssignmentCount();
+
         return (
             <div>
-                <DateInput />
+                <DateInput start={courseStart} end={courseEnd} />
                 <h2>Repetitions</h2>
                 <WeekInput />
-                <RepetitionsInput />
+                <RepetitionsInput count={assignmentCount} />
                 <input type="submit" value="Submit" />
             </div>
         )
@@ -15,12 +46,12 @@ var DateSelectForm = React.createClass({
 
 });
 
-var DateInput = React.createClass({
-// needs start and end dates from 
+class DateInput extends React.Component {
+// Uses start and end dates from 
 // COURSE_DATA['formatted_start']
 // COURSE_DATA['formatted_end']
-// @app.route('/get_course_data', methods=['POST'])
-    render: function() {
+
+    render() {
 
         return (
             <div>
@@ -30,7 +61,10 @@ var DateInput = React.createClass({
                         type="date"
                         name="date_select"
                         id="date_select"
-                        required />
+                        min={ this.props.start }
+                        max={ this.props.end }
+                        required
+                    />
                 </label>
                 <label>
                     Due Time:&nbsp;
@@ -45,12 +79,11 @@ var DateInput = React.createClass({
             </div>
         )
     }
+}
 
-});
+class WeekInput extends React.Component {
 
-var WeekInput = React.createClass({
-
-    render: function() {
+    render() {
 
         return (
             <p>
@@ -61,19 +94,19 @@ var WeekInput = React.createClass({
                         name="recurring_weeks"
                         id="recurring_weeks"
                         min="0"
+                        defaultValue={ 1 }
                         max="4"
                     />&nbsp;
-                    weeks
+                    week(s)
                 </label>
             </p>
         )
     }
+}
 
-});
-
-var RepetitionsInput = React.createClass({
+class RepetitionsInput extends React.Component {
 // number of possible repetions needs to be calculated
-    render: function() {
+    render() {
 
         return (
             <p>
@@ -84,14 +117,15 @@ var RepetitionsInput = React.createClass({
                         name="repetitions"
                         id="repetitions"
                         min="0"
+                        max={ this.props.count-1 }
+                        defaultValue={ this.props.count-1 }
                         required
                     />
                 </label>
             </p>
         )
     }
-
-});
+}
 
 ReactDOM.render(
     <DateSelectForm />,

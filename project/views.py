@@ -136,65 +136,38 @@ def date_select(lti=lti):
     session['assignment_type'] = request.form['selection']
     selection = session['assignment_type']
 
-    assignment_type = session['assignment_type']
-    item_list = []
-    list_length = 0
+    global ASSIGNMENTS
+    ASSIGNMENTS = []
 
-    if assignment_type == 'assignments':
+    if session['assignment_type'] == 'assignments':
         assignments = course.get_assignments()
         for item in assignments:
             if 'online_quiz' not in item.submission_types \
                     and 'discussion_topic' not in item.submission_types:
-                item_list.append(item)
-        list_length = len(item_list)
+                ASSIGNMENTS.append(item)
 
-    elif assignment_type == 'quizzes':
+    elif session['assignment_type'] == 'quizzes':
         quizzes = course.get_quizzes()
         for item in quizzes:
-            item_list.append(item)
-        list_length = len(item_list)
+            ASSIGNMENTS.append(item)
 
-    elif assignment_type == 'discussions':
+    elif session['assignment_type'] == 'discussions':
         discussions = course.get_discussion_topics()
         for item in discussions:
-            item_list.append(item)
-        list_length = len(item_list)
-
+            ASSIGNMENTS.append(item)
     else:
         print "No assignments of that type"
 
-    global ASSIGNMENTS
-    ASSIGNMENTS = item_list
     global COURSE_DATA
 
     return render_template(
         'date.htm.j2',
         course_obj=COURSE_DATA,
         selection=selection,
-        assignment_type=assignment_type,
-        list_length=list_length,
+        assignment_type=session['assignment_type'],
+        list_length=len(ASSIGNMENTS),
         item_list=ASSIGNMENTS
     )
-
-
-# Select start date
-@app.route('/get_course_data', methods=['POST'])
-def get_course_data(lti=lti):
-    global COURSE_DATA
-    return json.dumps(COURSE_DATA)
-
-
-# Select start date
-@app.route('/get_assignment_data', methods=['POST'])
-def get_assignment_data(lti=lti):
-    global ASSIGNMENTS
-    return json.dumps(ASSIGNMENTS)
-
-
-# Select start date
-@app.route('/get_assignment_type', methods=['POST'])
-def get_assignment_type(lti=lti):
-    return session['assignment_type']
 
 
 # Select assignments for dates
@@ -313,6 +286,34 @@ def process_complete(lti=lti):
         canvas_obj_list=canvas_obj_list
     )
 
+
+# ============================================
+# Data Retrieval
+# ============================================
+# Select start date
+@app.route('/get_course_data', methods=['POST'])
+def get_course_data(lti=lti):
+    global COURSE_DATA
+    return json.dumps(COURSE_DATA)
+
+
+# Select start date
+@app.route('/get_assignment_count', methods=['POST'])
+def get_assignment_count(lti=lti):
+    global ASSIGNMENTS
+    result = len(ASSIGNMENTS)
+    return str(result)
+
+
+# Select start date
+@app.route('/get_assignment_type', methods=['POST'])
+def get_assignment_type(lti=lti):
+    return session['assignment_type']
+
+
+# ============================================
+# Static Pages
+# ============================================
 
 # Home page
 @app.route('/', methods=['GET'])

@@ -8,43 +8,7 @@
 <h1>Select when you want your first {{ selection }} to start.</h1>
 
 <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
-
-<div id="date_select_form"></div>
-
-<!--	{% if course_obj.formatted_start and course_obj.formatted_end %}
-	<label>
-		Due Date: <input 
-			type="date"
-			name="date_select"
-			id="date_select"
-			min="{{ course_obj.formatted_start }}"
-			max="{{ course_obj.formatted_end }}"
-			required>
-	</label>
-	{% else %}
-	<label>
-		Due Date: <input 
-			type="date"
-			name="date_select"
-			id="date_select"
-			required>
-	</label>
-	{% endif %}
-	<label>
-		Due Time: <input type="time" name="time_select" id="time_select" value="23:59" required>
-	</label>
-	<h2>Repetitions</h2>
-	<p>
-		<label>
-			Every <input type="number" name="recurring_weeks" id="recurring_weeks" value="1" min="0" max="3"> weeks
-		</label>
-	</p>
-	<p>
-		<label>
-			Number of repetitions: <input type="number" name="repetitions" id="repetitions" min="0" max="{{ list_length - 1 }}" value="{{ list_length - 1 }}" required>
-		</label>
-	</p>
-	<input type="submit" value="Submit" /> -->
+	<div id="date_select_form"></div>
 </form>
 
 <h2>Course Information</h2>
