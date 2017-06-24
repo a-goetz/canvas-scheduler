@@ -1,3 +1,6 @@
+// import {CourseInfo} from 'course_info.js';
+// var CourseInfo = require('course_info.js');
+
 var AJAXRequest = function(type, url, callback) {
     var postRequest = new XMLHttpRequest();
     postRequest.addEventListener("load", 
@@ -78,6 +81,9 @@ var DateSelectForm = React.createClass({
     }
 
 });
+// <h1>Select when you want your first {{ assignment_type }} to start.</h1>
+// <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
+
 
 var DateInput = React.createClass({
 // Uses start and end dates from 

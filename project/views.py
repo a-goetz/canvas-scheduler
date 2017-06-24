@@ -168,6 +168,10 @@ def date_select(lti=lti):
     )
 
 
+def get_date_select_vars():
+    return
+
+
 # Select assignments for dates
 @app.route('/assign_dates', methods=['POST'])
 def assign_dates(lti=lti):

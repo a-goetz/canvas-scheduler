@@ -1,4 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// import CourseInfo from 'course_info';
+
 var AJAXRequest = function(type, url, callback) {
     var postRequest = new XMLHttpRequest();
     postRequest.addEventListener("load", 
@@ -79,6 +81,9 @@ var DateSelectForm = React.createClass({displayName: "DateSelectForm",
     }
 
 });
+// <h1>Select when you want your first {{ assignment_type }} to start.</h1>
+// <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
+
 
 var DateInput = React.createClass({displayName: "DateInput",
 // Uses start and end dates from 
