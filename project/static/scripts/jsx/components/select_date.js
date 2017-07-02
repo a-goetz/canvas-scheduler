@@ -1,53 +1,25 @@
+import React from 'react';
 // import {CourseInfo} from 'course_info.js';
 // var CourseInfo = require('course_info.js');
 
-var AJAXRequest = function(type, url, callback) {
-    var postRequest = new XMLHttpRequest();
-    postRequest.addEventListener("load", 
-        function() {
-            var data = JSON.parse(this.responseText);
-            callback(data);
-        });
-    postRequest.open(type, url);
-    postRequest.send();
-}
+export default class DateSelectForm extends React.Component {
 
-function getCourseData() {
-    var postRequest = new XMLHttpRequest();
-    var rUrl = "/get_course_data"
-    postRequest.open("POST", rUrl, false);
-    postRequest.send(null);
-    rJSON = JSON.parse(postRequest.response);
-    return rJSON;
-}
-
-function getAssignmentCount() {
-    var postRequest = new XMLHttpRequest();
-    var rUrl = "/get_assignment_count"
-    postRequest.open("POST", rUrl, false);
-    postRequest.send(null);
-    rString = postRequest.responseText;
-    return rString;
-}
-
-var DateSelectForm = React.createClass({
-
-    getInitialState: function() {
+    getInitialState() {
         var assignmentCount = getAssignmentCount();
         // this.setState({maxRepetitions: assignmentCount});
         return {maxRepetitions: assignmentCount}
-    },
+    }
 
-    dateChange: function(event){
+    dateChange(event){
         // this.setState({searchString:event.target.value});
 
         //test
         // this.setState({maxRepetitions:event.target.value})
         console.log(event.target.value);
         console.log("Date Change recognized by form");
-    },
+    }
 
-    render: function() {
+    render() {
 
         // var courseData = AJAXRequest(
         //     "POST",
@@ -80,10 +52,39 @@ var DateSelectForm = React.createClass({
         )
     }
 
-});
+};
 // <h1>Select when you want your first {{ assignment_type }} to start.</h1>
 // <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
 
+
+var AJAXRequest = function(type, url, callback) {
+    var postRequest = new XMLHttpRequest();
+    postRequest.addEventListener("load", 
+        function() {
+            var data = JSON.parse(this.responseText);
+            callback(data);
+        });
+    postRequest.open(type, url);
+    postRequest.send();
+}
+
+function getCourseData() {
+    var postRequest = new XMLHttpRequest();
+    var rUrl = "/get_course_data"
+    postRequest.open("POST", rUrl, false);
+    postRequest.send(null);
+    rJSON = JSON.parse(postRequest.response);
+    return rJSON;
+}
+
+function getAssignmentCount() {
+    var postRequest = new XMLHttpRequest();
+    var rUrl = "/get_assignment_count"
+    postRequest.open("POST", rUrl, false);
+    postRequest.send(null);
+    rString = postRequest.responseText;
+    return rString;
+}
 
 var DateInput = React.createClass({
 // Uses start and end dates from 
@@ -186,8 +187,3 @@ var RepetitionsInput = React.createClass({
         )
     }
 });
-
-ReactDOM.render(
-    <DateSelectForm />,
-    document.getElementById('date_select_form')
-);

@@ -1,5 +1,6 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-class CourseInfo extends React.Component {
+import React from 'react';
+
+export default class CourseInfo extends React.Component {
 	render(){
 		const course_start_date = true;
 		const course_end_date = true;
@@ -11,19 +12,19 @@ class CourseInfo extends React.Component {
 		const assignment_type = ['whathaveyou'];
 
 		return(
-			React.createElement("div", null, 
+			<div>
 
 
-				React.createElement("h2", null,  assignments.length, " ",  assignment_type, " in your course:"), 
+				<h2>{ assignments.length } { assignment_type } in your course:</h2>
 
-				React.createElement("ul", null, 
-					
+				<ul>
+					{
 						assignments.map(function(name, index) { 
-		    	            return React.createElement("li", {key:  index }, name);
+		    	            return <li key={ index }>{name}</li>;
 						}
-					)
-				)
-			)
+					)}
+				</ul>
+			</div>
 		)
 	}
 }
@@ -67,5 +68,3 @@ class CourseInfo extends React.Component {
 //         )
 //     }
 // });
-
-},{}]},{},[1]);
