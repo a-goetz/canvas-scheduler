@@ -27,7 +27,9 @@
     "gulp-size": "^2.1.0"
   },
   "dependencies": {
+    "moment": "^2.18.1",
     "react": "^15.6.1",
+    "react-big-calendar": "^0.14.4",
     "react-dom": "^15.6.1"
   }
 }

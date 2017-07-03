@@ -15,3 +15,11 @@ sudo npm install --save react react-dom
 
 other version of gulp
 Inspired by http://jpsierens.com/tutorial-gulp-javascript-2015-react/
+
+
+
+React Calendar
+https://github.com/intljusticemission/react-big-calendar
+
+MomentJS for use with Calendar.
+http://momentjs.com/

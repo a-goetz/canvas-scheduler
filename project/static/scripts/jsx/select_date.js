@@ -1,13 +1,15 @@
 import React from 'react';
-// import {CourseInfo} from 'course_info.js';
-// var CourseInfo = require('course_info.js');
+import ReactDOM from 'react-dom';
+// import CourseInfo from './course_info'; // not implemented
 
-export default class DateSelectForm extends React.Component {
+class DateSelectForm extends React.Component {
 
-    getInitialState() {
+    constructor(props) {
+        super(props);
         var assignmentCount = getAssignmentCount();
-        // this.setState({maxRepetitions: assignmentCount});
-        return {maxRepetitions: assignmentCount}
+        this.state = {
+            maxRepetitions: assignmentCount,
+        };
     }
 
     dateChange(event){
@@ -21,11 +23,6 @@ export default class DateSelectForm extends React.Component {
 
     render() {
 
-        // var courseData = AJAXRequest(
-        //     "POST",
-        //     "/get_assignment_count",
-        //     function(data){return data;}
-        // );
         var courseData = getCourseData();
         var courseStart = '';
         var courseEnd = '';
@@ -39,15 +36,17 @@ export default class DateSelectForm extends React.Component {
 
         return (
             <div>
-                <DateInput
-                    start={ courseStart }
-                    end={ courseEnd }
-                    onChange={ this.dateChange }
-                />
-                <h2>Repetitions</h2>
-                <WeekInput />
-                <RepetitionsInput count={ this.state.maxRepetitions } />
-                <input type="submit" value="Submit" />
+                <form action="/assign_dates" id="select_start" method="POST">
+                    <DateInput
+                        start={ courseStart }
+                        end={ courseEnd }
+                        onChange={ this.dateChange }
+                    />
+                    <h2>Repetitions</h2>
+                    <WeekInput />
+                    <RepetitionsInput count={ this.state.maxRepetitions } />
+                    <input type="submit" value="Submit" />
+                </form>
             </div>
         )
     }
@@ -73,7 +72,7 @@ function getCourseData() {
     var rUrl = "/get_course_data"
     postRequest.open("POST", rUrl, false);
     postRequest.send(null);
-    rJSON = JSON.parse(postRequest.response);
+    var rJSON = JSON.parse(postRequest.response);
     return rJSON;
 }
 
@@ -82,7 +81,7 @@ function getAssignmentCount() {
     var rUrl = "/get_assignment_count"
     postRequest.open("POST", rUrl, false);
     postRequest.send(null);
-    rString = postRequest.responseText;
+    var rString = postRequest.responseText;
     return rString;
 }
 
@@ -187,3 +186,8 @@ var RepetitionsInput = React.createClass({
         )
     }
 });
+
+ReactDOM.render(
+    <DateSelectForm />,
+    document.getElementById('date_select_form')
+);
