@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Calendar from './calendar';
+import Calendar from './calendar';
 // import CourseInfo from './course_info'; // not implemented
 
 class DateSelectForm extends React.Component {
@@ -28,7 +28,7 @@ class DateSelectForm extends React.Component {
         var courseStart = '';
         var courseEnd = '';
 
-        // var assignmentData = getAssignmentData();
+        var assignmentData = getAssignmentData();
         var events = setEvents();
 
         if (courseData.course_start_at != null) {
@@ -51,6 +51,7 @@ class DateSelectForm extends React.Component {
                     <RepetitionsInput count={ this.state.maxRepetitions } />
                     <input type="submit" value="Submit" />
                 </form>
+                <Calendar events={ events } />
             </div>
         )
     }
@@ -193,14 +194,14 @@ function getCourseData() {
     return rJSON;
 }
 
-// function getAssignmentData() {
-//     var postRequest = new XMLHttpRequest();
-//     var rUrl = "/get_assignments"
-//     postRequest.open("POST", rUrl, false);
-//     postRequest.send(null);
-//     console.log(postRequest.respose);
-//     return "bla";
-// }
+function getAssignmentData() {
+    var postRequest = new XMLHttpRequest();
+    var rUrl = "/get_assignments"
+    postRequest.open("POST", rUrl, false);
+    postRequest.send(null);
+    console.log(postRequest.respose);
+    return "bla";
+}
 
 function getAssignmentCount() {
     var postRequest = new XMLHttpRequest();
