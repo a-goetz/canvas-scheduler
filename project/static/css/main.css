@@ -6,3 +6,7 @@ input[type=date]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     display: none;
 }
+
+.rbc-calendar {
+	height: 500px !important;
+}

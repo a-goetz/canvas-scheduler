@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import Calendar from './calendar';
 // import CourseInfo from './course_info'; // not implemented
 
 class DateSelectForm extends React.Component {
@@ -26,6 +27,9 @@ class DateSelectForm extends React.Component {
         var courseData = getCourseData();
         var courseStart = '';
         var courseEnd = '';
+
+        // var assignmentData = getAssignmentData();
+        var events = setEvents();
 
         if (courseData.course_start_at != null) {
             courseStart = courseData.formatted_start;
@@ -56,41 +60,12 @@ class DateSelectForm extends React.Component {
 // <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
 
 
-var AJAXRequest = function(type, url, callback) {
-    var postRequest = new XMLHttpRequest();
-    postRequest.addEventListener("load", 
-        function() {
-            var data = JSON.parse(this.responseText);
-            callback(data);
-        });
-    postRequest.open(type, url);
-    postRequest.send();
-}
-
-function getCourseData() {
-    var postRequest = new XMLHttpRequest();
-    var rUrl = "/get_course_data"
-    postRequest.open("POST", rUrl, false);
-    postRequest.send(null);
-    var rJSON = JSON.parse(postRequest.response);
-    return rJSON;
-}
-
-function getAssignmentCount() {
-    var postRequest = new XMLHttpRequest();
-    var rUrl = "/get_assignment_count"
-    postRequest.open("POST", rUrl, false);
-    postRequest.send(null);
-    var rString = postRequest.responseText;
-    return rString;
-}
-
-var DateInput = React.createClass({
+class DateInput extends React.Component {
 // Uses start and end dates from 
 // COURSE_DATA['formatted_start']
 // COURSE_DATA['formatted_end']
     // sets initial state
-    render: function() {
+    render() {
 
         return (
             <div>
@@ -119,20 +94,22 @@ var DateInput = React.createClass({
             </div>
         )
     }
-});
+};
 
-var WeekInput = React.createClass({
+class WeekInput extends React.Component {
     // sets initial state
-    getInitialState: function(){
-        return { max: 4 };
-    },
+    constructor(props) {
+        super(props);
+        this.state = { max: 4 };
+        // this.state = { max: this.props.initialMax };
+    }
 
-    handleChange: function(event){
+    handleChange(event) {
         // this.setState({searchString:event.target.value});
         console.log("Weeks Changed");
-    },
+    }
 
-    render: function() {
+    render() {
 
         return (
             <p>
@@ -153,19 +130,23 @@ var WeekInput = React.createClass({
             </p>
         )
     }
-});
+};
 
-var RepetitionsInput = React.createClass({
+class RepetitionsInput extends React.Component {
 // number of possible repetions needs to be calculated
     // sets initial state
-    getInitialState: function(){
-        return { count: '' };
-    },
-    handleChange: function(event){
+    constructor(props) {
+        super(props);
+        this.state = { count: '' };
+        // this.state = { count: this.props.initialCount };
+    }
+
+    handleChange(event){
         // this.setState({searchString:event.target.value});
         console.log("Repetitions Changed");
-    },
-    render: function() {
+    }
+
+    render() {
 
         return (
             <p>
@@ -185,9 +166,93 @@ var RepetitionsInput = React.createClass({
             </p>
         )
     }
-});
+};
 
 ReactDOM.render(
     <DateSelectForm />,
     document.getElementById('date_select_form')
 );
+
+var AJAXRequest = function(type, url, callback) {
+    var postRequest = new XMLHttpRequest();
+    postRequest.addEventListener("load", 
+        function() {
+            var data = JSON.parse(this.responseText);
+            callback(data);
+        });
+    postRequest.open(type, url);
+    postRequest.send();
+}
+
+function getCourseData() {
+    var postRequest = new XMLHttpRequest();
+    var rUrl = "/get_course_data"
+    postRequest.open("POST", rUrl, false);
+    postRequest.send(null);
+    var rJSON = JSON.parse(postRequest.response);
+    return rJSON;
+}
+
+// function getAssignmentData() {
+//     var postRequest = new XMLHttpRequest();
+//     var rUrl = "/get_assignments"
+//     postRequest.open("POST", rUrl, false);
+//     postRequest.send(null);
+//     console.log(postRequest.respose);
+//     return "bla";
+// }
+
+function getAssignmentCount() {
+    var postRequest = new XMLHttpRequest();
+    var rUrl = "/get_assignment_count"
+    postRequest.open("POST", rUrl, false);
+    postRequest.send(null);
+    var rString = postRequest.responseText;
+    return rString;
+}
+
+function setEvents() {
+    return [
+        {
+            'title': 'All Day Event',
+            'allDay': true,
+            'start': new Date(2015, 3, 0),
+            'end': new Date(2015, 3, 1)
+        },
+        {
+            'title': 'Long Event',
+            'start': new Date(2015, 3, 7),
+            'end': new Date(2015, 3, 10)
+        },
+
+        {
+            'title': 'DTS STARTS',
+            'start': new Date(2016, 2, 13, 0, 0, 0),
+            'end': new Date(2016, 2, 20, 0, 0, 0)
+        },
+
+        {
+            'title': 'DTS ENDS',
+            'start': new Date(2016, 10, 6, 0, 0, 0),
+            'end': new Date(2016, 10, 13, 0, 0, 0)
+        },
+
+        {
+            'title': 'Some Event',
+            'start': new Date(2015, 3, 9, 0, 0, 0),
+            'end': new Date(2015, 3, 9, 0, 0, 0)
+        },
+        {
+            'title': 'Conference',
+            'start': new Date(2015, 3, 11),
+            'end': new Date(2015, 3, 13),
+        desc: 'Big conference for important people'
+        },
+        {
+            'title': 'Meeting',
+            'start': new Date(2015, 3, 12, 10, 30, 0, 0),
+            'end': new Date(2015, 3, 12, 12, 30, 0, 0),
+        desc: 'Pre-meeting meeting, to prepare for the meeting'
+        }
+    ]
+}

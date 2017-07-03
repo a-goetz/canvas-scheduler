@@ -21184,6 +21184,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// import Calendar from './calendar';
 // import CourseInfo from './course_info'; // not implemented
 
 var DateSelectForm = function (_React$Component) {
@@ -21218,6 +21219,9 @@ var DateSelectForm = function (_React$Component) {
             var courseData = getCourseData();
             var courseStart = '';
             var courseEnd = '';
+
+            // var assignmentData = getAssignmentData();
+            var events = setEvents();
 
             if (courseData.course_start_at != null) {
                 courseStart = courseData.formatted_start;
@@ -21258,6 +21262,168 @@ var DateSelectForm = function (_React$Component) {
 // <form action="{{ url_for('assign_dates', _external=True) }}" id="select_start" method="POST">
 
 
+var DateInput = function (_React$Component2) {
+    _inherits(DateInput, _React$Component2);
+
+    function DateInput() {
+        _classCallCheck(this, DateInput);
+
+        return _possibleConstructorReturn(this, (DateInput.__proto__ || Object.getPrototypeOf(DateInput)).apply(this, arguments));
+    }
+
+    _createClass(DateInput, [{
+        key: 'render',
+
+        // Uses start and end dates from 
+        // COURSE_DATA['formatted_start']
+        // COURSE_DATA['formatted_end']
+        // sets initial state
+        value: function render() {
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'Due Date:\xA0',
+                    _react2.default.createElement('input', {
+                        type: 'date',
+                        name: 'date_select',
+                        id: 'date_select',
+                        min: this.props.start,
+                        max: this.props.end,
+                        onChange: this.props.onChange,
+                        required: true
+                    })
+                ),
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'Due Time:\xA0',
+                    _react2.default.createElement('input', {
+                        type: 'time',
+                        name: 'time_select',
+                        id: 'time_select',
+                        defaultValue: '23:59',
+                        required: true
+                    })
+                )
+            );
+        }
+    }]);
+
+    return DateInput;
+}(_react2.default.Component);
+
+;
+
+var WeekInput = function (_React$Component3) {
+    _inherits(WeekInput, _React$Component3);
+
+    // sets initial state
+    function WeekInput(props) {
+        _classCallCheck(this, WeekInput);
+
+        var _this3 = _possibleConstructorReturn(this, (WeekInput.__proto__ || Object.getPrototypeOf(WeekInput)).call(this, props));
+
+        _this3.state = { max: 4 };
+        // this.state = { max: this.props.initialMax };
+        return _this3;
+    }
+
+    _createClass(WeekInput, [{
+        key: 'handleChange',
+        value: function handleChange(event) {
+            // this.setState({searchString:event.target.value});
+            console.log("Weeks Changed");
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+
+            return _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'Every\xA0',
+                    _react2.default.createElement('input', {
+                        type: 'number',
+                        name: 'recurring_weeks',
+                        id: 'recurring_weeks',
+                        min: '0',
+                        defaultValue: 1,
+                        max: this.state.max,
+                        onChange: this.handleChange,
+                        required: true
+                    }),
+                    '\xA0 week(s)'
+                )
+            );
+        }
+    }]);
+
+    return WeekInput;
+}(_react2.default.Component);
+
+;
+
+var RepetitionsInput = function (_React$Component4) {
+    _inherits(RepetitionsInput, _React$Component4);
+
+    // number of possible repetions needs to be calculated
+    // sets initial state
+    function RepetitionsInput(props) {
+        _classCallCheck(this, RepetitionsInput);
+
+        var _this4 = _possibleConstructorReturn(this, (RepetitionsInput.__proto__ || Object.getPrototypeOf(RepetitionsInput)).call(this, props));
+
+        _this4.state = { count: '' };
+        // this.state = { count: this.props.initialCount };
+        return _this4;
+    }
+
+    _createClass(RepetitionsInput, [{
+        key: 'handleChange',
+        value: function handleChange(event) {
+            // this.setState({searchString:event.target.value});
+            console.log("Repetitions Changed");
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+
+            return _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'Number of repetitions:\xA0',
+                    _react2.default.createElement('input', {
+                        type: 'number',
+                        name: 'repetitions',
+                        id: 'repetitions',
+                        min: '0',
+                        max: this.props.count - 1,
+                        defaultValue: this.props.count - 1,
+                        onChange: this.handleChange,
+                        required: true
+                    })
+                )
+            );
+        }
+    }]);
+
+    return RepetitionsInput;
+}(_react2.default.Component);
+
+;
+
+_reactDom2.default.render(_react2.default.createElement(DateSelectForm, null), document.getElementById('date_select_form'));
+
 var AJAXRequest = function AJAXRequest(type, url, callback) {
     var postRequest = new XMLHttpRequest();
     postRequest.addEventListener("load", function () {
@@ -21277,6 +21443,15 @@ function getCourseData() {
     return rJSON;
 }
 
+// function getAssignmentData() {
+//     var postRequest = new XMLHttpRequest();
+//     var rUrl = "/get_assignments"
+//     postRequest.open("POST", rUrl, false);
+//     postRequest.send(null);
+//     console.log(postRequest.respose);
+//     return "bla";
+// }
+
 function getAssignmentCount() {
     var postRequest = new XMLHttpRequest();
     var rUrl = "/get_assignment_count";
@@ -21286,122 +21461,39 @@ function getAssignmentCount() {
     return rString;
 }
 
-var DateInput = _react2.default.createClass({
-    displayName: 'DateInput',
-
-    // Uses start and end dates from 
-    // COURSE_DATA['formatted_start']
-    // COURSE_DATA['formatted_end']
-    // sets initial state
-    render: function render() {
-
-        return _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-                'label',
-                null,
-                'Due Date:\xA0',
-                _react2.default.createElement('input', {
-                    type: 'date',
-                    name: 'date_select',
-                    id: 'date_select',
-                    min: this.props.start,
-                    max: this.props.end,
-                    onChange: this.props.onChange,
-                    required: true
-                })
-            ),
-            _react2.default.createElement(
-                'label',
-                null,
-                'Due Time:\xA0',
-                _react2.default.createElement('input', {
-                    type: 'time',
-                    name: 'time_select',
-                    id: 'time_select',
-                    defaultValue: '23:59',
-                    required: true
-                })
-            )
-        );
-    }
-});
-
-var WeekInput = _react2.default.createClass({
-    displayName: 'WeekInput',
-
-    // sets initial state
-    getInitialState: function getInitialState() {
-        return { max: 4 };
-    },
-
-    handleChange: function handleChange(event) {
-        // this.setState({searchString:event.target.value});
-        console.log("Weeks Changed");
-    },
-
-    render: function render() {
-
-        return _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement(
-                'label',
-                null,
-                'Every\xA0',
-                _react2.default.createElement('input', {
-                    type: 'number',
-                    name: 'recurring_weeks',
-                    id: 'recurring_weeks',
-                    min: '0',
-                    defaultValue: 1,
-                    max: this.state.max,
-                    onChange: this.handleChange,
-                    required: true
-                }),
-                '\xA0 week(s)'
-            )
-        );
-    }
-});
-
-var RepetitionsInput = _react2.default.createClass({
-    displayName: 'RepetitionsInput',
-
-    // number of possible repetions needs to be calculated
-    // sets initial state
-    getInitialState: function getInitialState() {
-        return { count: '' };
-    },
-    handleChange: function handleChange(event) {
-        // this.setState({searchString:event.target.value});
-        console.log("Repetitions Changed");
-    },
-    render: function render() {
-
-        return _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement(
-                'label',
-                null,
-                'Number of repetitions:\xA0',
-                _react2.default.createElement('input', {
-                    type: 'number',
-                    name: 'repetitions',
-                    id: 'repetitions',
-                    min: '0',
-                    max: this.props.count - 1,
-                    defaultValue: this.props.count - 1,
-                    onChange: this.handleChange,
-                    required: true
-                })
-            )
-        );
-    }
-});
-
-_reactDom2.default.render(_react2.default.createElement(DateSelectForm, null), document.getElementById('date_select_form'));
+function setEvents() {
+    return [{
+        'title': 'All Day Event',
+        'allDay': true,
+        'start': new Date(2015, 3, 0),
+        'end': new Date(2015, 3, 1)
+    }, {
+        'title': 'Long Event',
+        'start': new Date(2015, 3, 7),
+        'end': new Date(2015, 3, 10)
+    }, {
+        'title': 'DTS STARTS',
+        'start': new Date(2016, 2, 13, 0, 0, 0),
+        'end': new Date(2016, 2, 20, 0, 0, 0)
+    }, {
+        'title': 'DTS ENDS',
+        'start': new Date(2016, 10, 6, 0, 0, 0),
+        'end': new Date(2016, 10, 13, 0, 0, 0)
+    }, {
+        'title': 'Some Event',
+        'start': new Date(2015, 3, 9, 0, 0, 0),
+        'end': new Date(2015, 3, 9, 0, 0, 0)
+    }, {
+        'title': 'Conference',
+        'start': new Date(2015, 3, 11),
+        'end': new Date(2015, 3, 13),
+        desc: 'Big conference for important people'
+    }, {
+        'title': 'Meeting',
+        'start': new Date(2015, 3, 12, 10, 30, 0, 0),
+        'end': new Date(2015, 3, 12, 12, 30, 0, 0),
+        desc: 'Pre-meeting meeting, to prepare for the meeting'
+    }];
+}
 
 },{"react":183,"react-dom":31}]},{},[184]);

@@ -17,6 +17,7 @@ app.config.from_object(settings.configClass)
 
 CANVAS = Canvas(settings.CANVAS_API_URL, settings.CANVAS_API_KEY)
 ASSIGNMENTS = []
+ASSIGNMENTS_EASY = []
 COURSE_DATA = {}
 
 # ============================================
@@ -292,14 +293,24 @@ def process_complete(lti=lti):
 # ============================================
 # Data Retrieval
 # ============================================
-# Select start date
+
 @app.route('/get_course_data', methods=['POST'])
 def get_course_data(lti=lti):
     global COURSE_DATA
     return json.dumps(COURSE_DATA)
 
 
-# Select start date
+@app.route('/get_assignments', methods=['POST'])
+def get_assignments(lti=lti):
+    global ASSIGNMENTS
+    thisItem = ASSIGNMENTS[0].to_json()
+    # for item in ASSIGNMENTS:
+    #     item_json = item.to_json()
+    #     print item_json
+    # return assignment_list
+    return thisItem
+
+
 @app.route('/get_assignment_count', methods=['POST'])
 def get_assignment_count(lti=lti):
     global ASSIGNMENTS
@@ -307,7 +318,6 @@ def get_assignment_count(lti=lti):
     return str(result)
 
 
-# Select start date
 @app.route('/get_assignment_type', methods=['POST'])
 def get_assignment_type(lti=lti):
     return session['assignment_type']

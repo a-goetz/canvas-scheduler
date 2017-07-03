@@ -40076,9 +40076,17 @@ module.exports = warning;
 },{"_process":245}],463:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _reactBigCalendar = require('react-big-calendar');
 
@@ -40096,108 +40104,55 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-React = require('react');
-
-
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
 _reactBigCalendar2.default.momentLocalizer(_moment2.default); // or globalizeLocalizer
 
-// const MyCalendar = props => (
-// 	<div>
-// 		<BigCalendar
-// 			events={myEventsList}
-// 			startAccessor='startDate'
-// 			endAccessor='endDate'
-// 		/>
-// 	</div>
-// );
-
-// let allViews = Object.keys(BigCalendar.views).map(k => BigCalendar.views[k])
+var allViews = Object.keys(_reactBigCalendar2.default.views).map(function (k) {
+	return _reactBigCalendar2.default.views[k];
+});
 
 var Calendar = function (_React$Component) {
 	_inherits(Calendar, _React$Component);
 
-	function Calendar(props, context) {
+	function Calendar(props) {
 		_classCallCheck(this, Calendar);
 
-		return _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props, context));
+		var _this = _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props));
+
+		_this.state = { events: _this.props.events };
+		return _this;
 	}
 
 	_createClass(Calendar, [{
 		key: 'render',
 		value: function render() {
-			var events = [{
-				'title': 'All Day Event',
-				'allDay': true,
-				'start': new Date(2015, 3, 0),
-				'end': new Date(2015, 3, 1)
-			}, {
-				'title': 'Long Event',
-				'start': new Date(2015, 3, 7),
-				'end': new Date(2015, 3, 10)
-			}, {
-				'title': 'DTS STARTS',
-				'start': new Date(2016, 2, 13, 0, 0, 0),
-				'end': new Date(2016, 2, 20, 0, 0, 0)
-			}, {
-				'title': 'DTS ENDS',
-				'start': new Date(2016, 10, 6, 0, 0, 0),
-				'end': new Date(2016, 10, 13, 0, 0, 0)
-			}, {
-				'title': 'Some Event',
-				'start': new Date(2015, 3, 9, 0, 0, 0),
-				'end': new Date(2015, 3, 9, 0, 0, 0)
-			}, {
-				'title': 'Conference',
-				'start': new Date(2015, 3, 11),
-				'end': new Date(2015, 3, 13),
-				desc: 'Big conference for important people'
-			}, {
-				'title': 'Meeting',
-				'start': new Date(2015, 3, 12, 10, 30, 0, 0),
-				'end': new Date(2015, 3, 12, 12, 30, 0, 0),
-				desc: 'Pre-meeting meeting, to prepare for the meeting'
-			}, {
-				'title': 'Lunch',
-				'start': new Date(2015, 3, 12, 12, 0, 0, 0),
-				'end': new Date(2015, 3, 12, 13, 0, 0, 0),
-				desc: 'Power lunch'
-			}, {
-				'title': 'Meeting',
-				'start': new Date(2015, 3, 12, 14, 0, 0, 0),
-				'end': new Date(2015, 3, 12, 15, 0, 0, 0)
-			}, {
-				'title': 'Happy Hour',
-				'start': new Date(2015, 3, 12, 17, 0, 0, 0),
-				'end': new Date(2015, 3, 12, 17, 30, 0, 0),
-				desc: 'Most important meal of the day'
-			}, {
-				'title': 'Dinner',
-				'start': new Date(2015, 3, 12, 20, 0, 0, 0),
-				'end': new Date(2015, 3, 12, 21, 0, 0, 0)
-			}, {
-				'title': 'Birthday Party',
-				'start': new Date(2015, 3, 13, 7, 0, 0),
-				'end': new Date(2015, 3, 13, 10, 30, 0)
-			}];
-			return React.createElement(
+
+			var today = new Date();
+			var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+			return _react2.default.createElement(
 				'div',
 				null,
-				React.createElement(_reactBigCalendar2.default, _extends({}, this.props, {
+				_react2.default.createElement(_reactBigCalendar2.default, _extends({}, this.props, {
 					culture: 'en-GB',
-					events: events
-					// views={allViews}
-					, views: ['month', 'week'],
-					defaultDate: new Date(2015, 3, 1)
+					events: this.props.events,
+					views: allViews,
+					defaultDate: today
 				}))
 			);
 		}
 	}]);
 
 	return Calendar;
-}(React.Component);
+}(_react2.default.Component);
 
-ReactDOM.render(React.createElement(Calendar, null), document.getElementById('calendar'));
+// ReactDOM.render(
+//     <Calendar />,
+//     document.getElementById('calendar')
+// );
+
+
+exports.default = Calendar;
 
 },{"moment":243,"react":458,"react-big-calendar":278}]},{},[463]);
