@@ -1,10 +1,17 @@
 from canvasapi import Canvas
 from flask import Flask, render_template, session, request, Response
 from pylti.flask import lti
-import settings
 import logging
 import json
 from logging.handlers import RotatingFileHandler
+
+import os
+
+if 'HEROKU_ENV' in os.environ:
+    import heroku_settings as settings
+else:
+    import settings
+
 
 app = Flask(__name__)
 app.secret_key = settings.secret_key
