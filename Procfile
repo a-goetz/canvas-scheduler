@@ -1,1 +1,1 @@
-web: gunicorn project.views:app
+web: gunicorn --pythonpath project views:app
