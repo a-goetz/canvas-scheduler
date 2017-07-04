@@ -1,1 +1,1 @@
-web: gunicorn views
+web: sh run.sh
