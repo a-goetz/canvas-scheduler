@@ -2,8 +2,8 @@
 import os
 
 # Using a placeholder for environment variables.
-# If not found in the environment, it will default to the local value, which is set in
-# the second parameter. Example:
+# If not found in the environment, it will default to the local value,
+# which is set in the second parameter. Example:
 # os.environ.get("ENVIRONMENT_KEY", "LOCAL_VALUE")
 # This makes it a bit easier to use one file for local and environment deployment.
 
