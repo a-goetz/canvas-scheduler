@@ -2,6 +2,7 @@ appdirs==1.4.3
 canvasapi==0.3.0
 click==6.7
 Flask==0.12.2
+gunicorn==19.7.1
 httplib2==0.9.2
 itsdangerous==0.24
 Jinja2==2.9.6
