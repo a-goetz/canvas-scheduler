@@ -2,16 +2,20 @@
 {% block content %}
 
 <div>
-    <h1>Welcome to Canvas Scheduler</h1>
+    <div class="page-header">
+        <h1>Welcome to Canvas Scheduler</h1>
+    </div>
     <p>Scheduling your course is just a few clicks away!</p>
 
     <form action="{{ url_for('date_select', _external=True) }}" id="select_type" method="POST">
-        <select name="selection" id="selection">
+        <div class="form-group">
+        <label for="selection">Select Assignment Type:</label>
+        <select class="form-control" name="selection" id="selection">
             <option value="assignments">Assignments</option>
             <option value="quizzes">Quizzes</option>
             <option value="discussions">Discussions</option>
         </select>
-        <input type="submit" value="Continue">
+        <input class="btn btn-primary" type="submit" value="Continue">
     </form>
 </div>
 

@@ -5,8 +5,9 @@
 	traceJSON({{ course_obj|tojson }});
 </script>
 
-
-<h2>Course Information</h2>
+<div class="page-header">
+	<h2>Course Information</h2>
+</div>
 
 {% if course_obj.course_start_at %}
 <p>Course Start: {{ course_obj.formatted_start }}</p>

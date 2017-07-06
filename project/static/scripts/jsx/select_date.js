@@ -68,10 +68,11 @@ class DateInput extends React.Component {
     render() {
 
         return (
-            <div>
-                <label>
+            <div class="form-group">
+                <label for="date_select">
                     Due Date:&nbsp;
                     <input 
+                        class="form-control"
                         type="date"
                         name="date_select"
                         id="date_select"
@@ -81,9 +82,10 @@ class DateInput extends React.Component {
                         required
                     />
                 </label>
-                <label>
+                <label for="time_select">
                     Due Time:&nbsp;
                     <input
+                        class="form-control"
                         type="time"
                         name="time_select"
                         id="time_select"
@@ -112,10 +114,11 @@ class WeekInput extends React.Component {
     render() {
 
         return (
-            <p>
-                <label>
+            <p class="form-group">
+                <label for="recurring_weeks">
                     Every&nbsp;
                     <input
+                        class="form-control"
                         type="number"
                         name="recurring_weeks"
                         id="recurring_weeks"
@@ -149,10 +152,11 @@ class RepetitionsInput extends React.Component {
     render() {
 
         return (
-            <p>
-                <label>
+            <p class="form-group">
+                <label for="repetitions">
                     Number of repetitions:&nbsp;
                     <input
+                        class="form-control"
                         type="number"
                         name="repetitions"
                         id="repetitions"
