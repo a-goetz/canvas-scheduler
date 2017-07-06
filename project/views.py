@@ -46,6 +46,15 @@ app.logger.addHandler(handler)
 # Utility Functions
 # ============================================
 
+def clearData():
+    global ASSIGNMENTS
+    ASSIGNMENTS = []
+    global ASSIGNMENTS_EASY
+    ASSIGNMENTS_EASY = []
+    global COURSE_DATA
+    COURSE_DATA = {}
+
+
 def return_error(msg):
     """
     Return the error template with error message.
@@ -115,6 +124,8 @@ def launch(lti=lti):
     Returns the launch page
     request.form will contain all the lti params
     """
+    clearData()
+
     session['custom_canvas_course_id'] = request.form.get(
         'custom_canvas_course_id')
 
