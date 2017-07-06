@@ -1,10 +1,10 @@
 {% extends 'base.htm.j2' %}
 {% block content %}
 
-<form action="{{ url_for('process_complete', _external=True) }}" method="POST">
+<form class="form-group" action="{{ url_for('process_complete', _external=True) }}" method="POST">
 {% for date in date_list %}
 <p>{{ date }}</p>
-<select id="{{ date }}" name="{{ date }}">
+<select class="form-control" id="{{ date }}" name="{{ date }}">
 {% for item in item_list %}
 {% if assignment_type == 'assignments' %}
 	<option value="{{ item.id }}">{{ item.name }}</option>

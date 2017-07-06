@@ -21248,7 +21248,7 @@ var DateSelectForm = function (_React$Component) {
                     ),
                     _react2.default.createElement(WeekInput, null),
                     _react2.default.createElement(RepetitionsInput, { count: this.state.maxRepetitions }),
-                    _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+                    _react2.default.createElement('input', { 'class': 'btn btn-primary', type: 'submit', value: 'Submit' })
                 )
             );
         }
@@ -21282,12 +21282,13 @@ var DateInput = function (_React$Component2) {
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { 'class': 'form-group' },
                 _react2.default.createElement(
                     'label',
-                    null,
+                    { 'for': 'date_select' },
                     'Due Date:\xA0',
                     _react2.default.createElement('input', {
+                        'class': 'form-control',
                         type: 'date',
                         name: 'date_select',
                         id: 'date_select',
@@ -21299,9 +21300,10 @@ var DateInput = function (_React$Component2) {
                 ),
                 _react2.default.createElement(
                     'label',
-                    null,
+                    { 'for': 'time_select' },
                     'Due Time:\xA0',
                     _react2.default.createElement('input', {
+                        'class': 'form-control',
                         type: 'time',
                         name: 'time_select',
                         id: 'time_select',
@@ -21344,12 +21346,13 @@ var WeekInput = function (_React$Component3) {
 
             return _react2.default.createElement(
                 'p',
-                null,
+                { 'class': 'form-group' },
                 _react2.default.createElement(
                     'label',
-                    null,
+                    { 'for': 'recurring_weeks' },
                     'Every\xA0',
                     _react2.default.createElement('input', {
+                        'class': 'form-control',
                         type: 'number',
                         name: 'recurring_weeks',
                         id: 'recurring_weeks',
@@ -21397,12 +21400,13 @@ var RepetitionsInput = function (_React$Component4) {
 
             return _react2.default.createElement(
                 'p',
-                null,
+                { 'class': 'form-group' },
                 _react2.default.createElement(
                     'label',
-                    null,
+                    { 'for': 'repetitions' },
                     'Number of repetitions:\xA0',
                     _react2.default.createElement('input', {
+                        'class': 'form-control',
                         type: 'number',
                         name: 'repetitions',
                         id: 'repetitions',
