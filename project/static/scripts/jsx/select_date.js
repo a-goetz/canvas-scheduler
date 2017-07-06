@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+var React = require('react');
+var ReactDOM = require('react-dom');
 // import Calendar from './calendar';
 // import CourseInfo from './course_info'; // not implemented
 

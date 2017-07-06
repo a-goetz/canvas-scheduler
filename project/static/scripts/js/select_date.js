@@ -21168,22 +21168,14 @@ module.exports = require('./lib/React');
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var React = require('react');
+var ReactDOM = require('react-dom');
 // import Calendar from './calendar';
 // import CourseInfo from './course_info'; // not implemented
 
@@ -21230,32 +21222,32 @@ var DateSelectForm = function (_React$Component) {
                 courseEnd = courseData.formatted_end;
             }
 
-            return _react2.default.createElement(
+            return React.createElement(
                 'div',
                 null,
-                _react2.default.createElement(
+                React.createElement(
                     'form',
                     { action: '/assign_dates', id: 'select_start', method: 'POST' },
-                    _react2.default.createElement(DateInput, {
+                    React.createElement(DateInput, {
                         start: courseStart,
                         end: courseEnd,
                         onChange: this.dateChange
                     }),
-                    _react2.default.createElement(
+                    React.createElement(
                         'h2',
                         null,
                         'Repetitions'
                     ),
-                    _react2.default.createElement(WeekInput, null),
-                    _react2.default.createElement(RepetitionsInput, { count: this.state.maxRepetitions }),
-                    _react2.default.createElement('input', { className: 'btn btn-primary', type: 'submit', value: 'Submit' })
+                    React.createElement(WeekInput, null),
+                    React.createElement(RepetitionsInput, { count: this.state.maxRepetitions }),
+                    React.createElement('input', { className: 'btn btn-primary', type: 'submit', value: 'Submit' })
                 )
             );
         }
     }]);
 
     return DateSelectForm;
-}(_react2.default.Component);
+}(React.Component);
 
 ;
 // <h1>Select when you want your first {{ assignment_type }} to start.</h1>
@@ -21280,14 +21272,14 @@ var DateInput = function (_React$Component2) {
         // sets initial state
         value: function render() {
 
-            return _react2.default.createElement(
+            return React.createElement(
                 'div',
                 { 'class': 'form-group' },
-                _react2.default.createElement(
+                React.createElement(
                     'label',
                     { 'for': 'date_select' },
                     'Due Date:\xA0',
-                    _react2.default.createElement('input', {
+                    React.createElement('input', {
                         'class': 'form-control',
                         type: 'date',
                         name: 'date_select',
@@ -21298,11 +21290,11 @@ var DateInput = function (_React$Component2) {
                         required: true
                     })
                 ),
-                _react2.default.createElement(
+                React.createElement(
                     'label',
                     { 'for': 'time_select' },
                     'Due Time:\xA0',
-                    _react2.default.createElement('input', {
+                    React.createElement('input', {
                         'class': 'form-control',
                         type: 'time',
                         name: 'time_select',
@@ -21316,7 +21308,7 @@ var DateInput = function (_React$Component2) {
     }]);
 
     return DateInput;
-}(_react2.default.Component);
+}(React.Component);
 
 ;
 
@@ -21344,14 +21336,14 @@ var WeekInput = function (_React$Component3) {
         key: 'render',
         value: function render() {
 
-            return _react2.default.createElement(
+            return React.createElement(
                 'p',
                 { 'class': 'form-group' },
-                _react2.default.createElement(
+                React.createElement(
                     'label',
                     { 'for': 'recurring_weeks' },
                     'Every\xA0',
-                    _react2.default.createElement('input', {
+                    React.createElement('input', {
                         'class': 'form-control',
                         type: 'number',
                         name: 'recurring_weeks',
@@ -21369,7 +21361,7 @@ var WeekInput = function (_React$Component3) {
     }]);
 
     return WeekInput;
-}(_react2.default.Component);
+}(React.Component);
 
 ;
 
@@ -21398,14 +21390,14 @@ var RepetitionsInput = function (_React$Component4) {
         key: 'render',
         value: function render() {
 
-            return _react2.default.createElement(
+            return React.createElement(
                 'p',
                 { 'class': 'form-group' },
-                _react2.default.createElement(
+                React.createElement(
                     'label',
                     { 'for': 'repetitions' },
                     'Number of repetitions:\xA0',
-                    _react2.default.createElement('input', {
+                    React.createElement('input', {
                         'class': 'form-control',
                         type: 'number',
                         name: 'repetitions',
@@ -21422,11 +21414,11 @@ var RepetitionsInput = function (_React$Component4) {
     }]);
 
     return RepetitionsInput;
-}(_react2.default.Component);
+}(React.Component);
 
 ;
 
-_reactDom2.default.render(_react2.default.createElement(DateSelectForm, null), document.getElementById('date_select_form'));
+ReactDOM.render(React.createElement(DateSelectForm, null), document.getElementById('date_select_form'));
 
 var AJAXRequest = function AJAXRequest(type, url, callback) {
     var postRequest = new XMLHttpRequest();

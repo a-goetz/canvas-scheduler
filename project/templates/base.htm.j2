@@ -12,18 +12,13 @@
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
-
-    <!-- ReactJS -->
-    <script src="{{ url_for('static', filename='bower_components/react/react.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/react/react-dom.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/js/example.js') }}"></script>
     
     <!-- Local Scripts -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
     <!-- Style Sheets -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/react-big-calendar.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/react-big-calendar.css') }}"> -->
 
     <title>LTI Template</title>
 </head>
@@ -40,5 +35,10 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- ReactJS -->
+    <script src="{{ url_for('static', filename='bower_components/react/react.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/react/react-dom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/js/example.js') }}"></script>
 </body>
 </html>
