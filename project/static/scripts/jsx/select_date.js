@@ -49,7 +49,7 @@ class DateSelectForm extends React.Component {
                     <h2>Repetitions</h2>
                     <WeekInput />
                     <RepetitionsInput count={ this.state.maxRepetitions } />
-                    <input class="btn btn-primary" type="submit" value="Submit" />
+                    <input className="btn btn-primary" type="submit" value="Submit" />
                 </form>
             </div>
         )

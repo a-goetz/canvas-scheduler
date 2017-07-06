@@ -21248,7 +21248,7 @@ var DateSelectForm = function (_React$Component) {
                     ),
                     _react2.default.createElement(WeekInput, null),
                     _react2.default.createElement(RepetitionsInput, { count: this.state.maxRepetitions }),
-                    _react2.default.createElement('input', { 'class': 'btn btn-primary', type: 'submit', value: 'Submit' })
+                    _react2.default.createElement('input', { className: 'btn btn-primary', type: 'submit', value: 'Submit' })
                 )
             );
         }
