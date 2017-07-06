@@ -292,7 +292,7 @@ def process_complete(lti=lti):
 
     return render_template(
         'review.htm.j2',
-        assignment_list=assignment_list,
+        assignment_type=assignment_type,
         canvas_obj_list=canvas_obj_list
     )
 

@@ -1,12 +1,15 @@
 {% extends 'base.htm.j2' %}
 {% block content %}
 
-{% for item in assignment_list %}
-<p>Key: {{item.assignment}}, Value: {{item.date}}</p>
-{% endfor %}
+<h1>Date Change Success!</h1>
 
 {% for item in canvas_obj_list %}
 <p>{{ item }}</p>
+{% if assignment_type == "discussions" %}
+<p>Due At: {{ item.lock_at }}</p>
+{% else %}
+<p>Due At: {{ item.due_at }}</p>
+{% endif %}
 {% endfor %}
 
 <!-- <div id="calendar"></div>
