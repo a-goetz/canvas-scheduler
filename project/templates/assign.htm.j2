@@ -1,6 +1,8 @@
 {% extends 'base.htm.j2' %}
 {% block content %}
 
+<h1 class="page-header">Assign events to dates</h1>
+
 <form class="form-group" action="{{ url_for('process_complete', _external=True) }}" method="POST">
 {% for date in date_list %}
 <p>{{ date }}</p>
