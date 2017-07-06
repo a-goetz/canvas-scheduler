@@ -21188,8 +21188,10 @@ var DateSelectForm = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (DateSelectForm.__proto__ || Object.getPrototypeOf(DateSelectForm)).call(this, props));
 
         var assignmentCount = getAssignmentCount();
+        var courseData = getCourseData();
         _this.state = {
-            maxRepetitions: assignmentCount
+            maxRepetitions: assignmentCount,
+            courseData: courseData
         };
         return _this;
     }
@@ -21208,15 +21210,15 @@ var DateSelectForm = function (_React$Component) {
         key: 'render',
         value: function render() {
 
-            var courseData = getCourseData();
+            // var courseData = getCourseData();
             var courseStart = '';
             var courseEnd = '';
 
-            if (courseData.course_start_at != null) {
-                courseStart = courseData.formatted_start;
+            if (this.state.courseData.course_start_at != null) {
+                courseStart = this.state.courseData.formatted_start;
             }
-            if (courseData.course_end_at != null) {
-                courseEnd = courseData.formatted_end;
+            if (this.state.courseData.course_end_at != null) {
+                courseEnd = this.state.courseData.formatted_end;
             }
 
             return React.createElement(

@@ -8,8 +8,10 @@ class DateSelectForm extends React.Component {
     constructor(props) {
         super(props);
         var assignmentCount = getAssignmentCount();
+        var courseData = getCourseData();
         this.state = {
             maxRepetitions: assignmentCount,
+            courseData: courseData,
         };
     }
 
@@ -24,15 +26,15 @@ class DateSelectForm extends React.Component {
 
     render() {
 
-        var courseData = getCourseData();
+        // var courseData = getCourseData();
         var courseStart = '';
         var courseEnd = '';
 
-        if (courseData.course_start_at != null) {
-            courseStart = courseData.formatted_start;
+        if (this.state.courseData.course_start_at != null) {
+            courseStart = this.state.courseData.formatted_start;
         }
-        if (courseData.course_end_at != null) {
-            courseEnd = courseData.formatted_end;
+        if (this.state.courseData.course_end_at != null) {
+            courseEnd = this.state.courseData.formatted_end;
         }
 
         return (
