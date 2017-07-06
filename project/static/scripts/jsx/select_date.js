@@ -28,9 +28,6 @@ class DateSelectForm extends React.Component {
         var courseStart = '';
         var courseEnd = '';
 
-        // var assignmentData = getAssignmentData();
-        var events = setEvents();
-
         if (courseData.course_start_at != null) {
             courseStart = courseData.formatted_start;
         }
@@ -68,11 +65,11 @@ class DateInput extends React.Component {
     render() {
 
         return (
-            <div class="form-group">
-                <label for="date_select">
+            <div className="form-group">
+                <label htmlFor="date_select">
                     Due Date:&nbsp;
                     <input 
-                        class="form-control"
+                        className="form-control"
                         type="date"
                         name="date_select"
                         id="date_select"
@@ -82,10 +79,10 @@ class DateInput extends React.Component {
                         required
                     />
                 </label>
-                <label for="time_select">
+                <label htmlFor="time_select">
                     Due Time:&nbsp;
                     <input
-                        class="form-control"
+                        className="form-control"
                         type="time"
                         name="time_select"
                         id="time_select"
@@ -114,11 +111,11 @@ class WeekInput extends React.Component {
     render() {
 
         return (
-            <p class="form-group">
-                <label for="recurring_weeks">
+            <p className="form-group">
+                <label htmlFor="recurring_weeks">
                     Every&nbsp;
                     <input
-                        class="form-control"
+                        className="form-control"
                         type="number"
                         name="recurring_weeks"
                         id="recurring_weeks"
@@ -152,11 +149,11 @@ class RepetitionsInput extends React.Component {
     render() {
 
         return (
-            <p class="form-group">
-                <label for="repetitions">
+            <p className="form-group">
+                <label htmlFor="repetitions">
                     Number of repetitions:&nbsp;
                     <input
-                        class="form-control"
+                        className="form-control"
                         type="number"
                         name="repetitions"
                         id="repetitions"
@@ -197,15 +194,6 @@ function getCourseData() {
     return rJSON;
 }
 
-// function getAssignmentData() {
-//     var postRequest = new XMLHttpRequest();
-//     var rUrl = "/get_assignments"
-//     postRequest.open("POST", rUrl, false);
-//     postRequest.send(null);
-//     console.log(postRequest.respose);
-//     return "bla";
-// }
-
 function getAssignmentCount() {
     var postRequest = new XMLHttpRequest();
     var rUrl = "/get_assignment_count"
@@ -213,50 +201,4 @@ function getAssignmentCount() {
     postRequest.send(null);
     var rString = postRequest.responseText;
     return rString;
-}
-
-function setEvents() {
-    return [
-        {
-            'title': 'All Day Event',
-            'allDay': true,
-            'start': new Date(2015, 3, 0),
-            'end': new Date(2015, 3, 1)
-        },
-        {
-            'title': 'Long Event',
-            'start': new Date(2015, 3, 7),
-            'end': new Date(2015, 3, 10)
-        },
-
-        {
-            'title': 'DTS STARTS',
-            'start': new Date(2016, 2, 13, 0, 0, 0),
-            'end': new Date(2016, 2, 20, 0, 0, 0)
-        },
-
-        {
-            'title': 'DTS ENDS',
-            'start': new Date(2016, 10, 6, 0, 0, 0),
-            'end': new Date(2016, 10, 13, 0, 0, 0)
-        },
-
-        {
-            'title': 'Some Event',
-            'start': new Date(2015, 3, 9, 0, 0, 0),
-            'end': new Date(2015, 3, 9, 0, 0, 0)
-        },
-        {
-            'title': 'Conference',
-            'start': new Date(2015, 3, 11),
-            'end': new Date(2015, 3, 13),
-        desc: 'Big conference for important people'
-        },
-        {
-            'title': 'Meeting',
-            'start': new Date(2015, 3, 12, 10, 30, 0, 0),
-            'end': new Date(2015, 3, 12, 12, 30, 0, 0),
-        desc: 'Pre-meeting meeting, to prepare for the meeting'
-        }
-    ]
 }

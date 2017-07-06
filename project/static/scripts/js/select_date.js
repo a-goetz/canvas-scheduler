@@ -21212,9 +21212,6 @@ var DateSelectForm = function (_React$Component) {
             var courseStart = '';
             var courseEnd = '';
 
-            // var assignmentData = getAssignmentData();
-            var events = setEvents();
-
             if (courseData.course_start_at != null) {
                 courseStart = courseData.formatted_start;
             }
@@ -21274,13 +21271,13 @@ var DateInput = function (_React$Component2) {
 
             return React.createElement(
                 'div',
-                { 'class': 'form-group' },
+                { className: 'form-group' },
                 React.createElement(
                     'label',
-                    { 'for': 'date_select' },
+                    { htmlFor: 'date_select' },
                     'Due Date:\xA0',
                     React.createElement('input', {
-                        'class': 'form-control',
+                        className: 'form-control',
                         type: 'date',
                         name: 'date_select',
                         id: 'date_select',
@@ -21292,10 +21289,10 @@ var DateInput = function (_React$Component2) {
                 ),
                 React.createElement(
                     'label',
-                    { 'for': 'time_select' },
+                    { htmlFor: 'time_select' },
                     'Due Time:\xA0',
                     React.createElement('input', {
-                        'class': 'form-control',
+                        className: 'form-control',
                         type: 'time',
                         name: 'time_select',
                         id: 'time_select',
@@ -21338,13 +21335,13 @@ var WeekInput = function (_React$Component3) {
 
             return React.createElement(
                 'p',
-                { 'class': 'form-group' },
+                { className: 'form-group' },
                 React.createElement(
                     'label',
-                    { 'for': 'recurring_weeks' },
+                    { htmlFor: 'recurring_weeks' },
                     'Every\xA0',
                     React.createElement('input', {
-                        'class': 'form-control',
+                        className: 'form-control',
                         type: 'number',
                         name: 'recurring_weeks',
                         id: 'recurring_weeks',
@@ -21392,13 +21389,13 @@ var RepetitionsInput = function (_React$Component4) {
 
             return React.createElement(
                 'p',
-                { 'class': 'form-group' },
+                { className: 'form-group' },
                 React.createElement(
                     'label',
-                    { 'for': 'repetitions' },
+                    { htmlFor: 'repetitions' },
                     'Number of repetitions:\xA0',
                     React.createElement('input', {
-                        'class': 'form-control',
+                        className: 'form-control',
                         type: 'number',
                         name: 'repetitions',
                         id: 'repetitions',
@@ -21439,15 +21436,6 @@ function getCourseData() {
     return rJSON;
 }
 
-// function getAssignmentData() {
-//     var postRequest = new XMLHttpRequest();
-//     var rUrl = "/get_assignments"
-//     postRequest.open("POST", rUrl, false);
-//     postRequest.send(null);
-//     console.log(postRequest.respose);
-//     return "bla";
-// }
-
 function getAssignmentCount() {
     var postRequest = new XMLHttpRequest();
     var rUrl = "/get_assignment_count";
@@ -21455,41 +21443,6 @@ function getAssignmentCount() {
     postRequest.send(null);
     var rString = postRequest.responseText;
     return rString;
-}
-
-function setEvents() {
-    return [{
-        'title': 'All Day Event',
-        'allDay': true,
-        'start': new Date(2015, 3, 0),
-        'end': new Date(2015, 3, 1)
-    }, {
-        'title': 'Long Event',
-        'start': new Date(2015, 3, 7),
-        'end': new Date(2015, 3, 10)
-    }, {
-        'title': 'DTS STARTS',
-        'start': new Date(2016, 2, 13, 0, 0, 0),
-        'end': new Date(2016, 2, 20, 0, 0, 0)
-    }, {
-        'title': 'DTS ENDS',
-        'start': new Date(2016, 10, 6, 0, 0, 0),
-        'end': new Date(2016, 10, 13, 0, 0, 0)
-    }, {
-        'title': 'Some Event',
-        'start': new Date(2015, 3, 9, 0, 0, 0),
-        'end': new Date(2015, 3, 9, 0, 0, 0)
-    }, {
-        'title': 'Conference',
-        'start': new Date(2015, 3, 11),
-        'end': new Date(2015, 3, 13),
-        desc: 'Big conference for important people'
-    }, {
-        'title': 'Meeting',
-        'start': new Date(2015, 3, 12, 10, 30, 0, 0),
-        'end': new Date(2015, 3, 12, 12, 30, 0, 0),
-        desc: 'Pre-meeting meeting, to prepare for the meeting'
-    }];
 }
 
 },{"react":183,"react-dom":31}]},{},[184]);
