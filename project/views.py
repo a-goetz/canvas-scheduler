@@ -47,6 +47,11 @@ app.logger.addHandler(handler)
 # ============================================
 
 def clearData():
+    """
+    Reset the globals. Called by /launch.
+    This fixes any chance of the previous globals
+    still being set if the page is quickly reloaded.
+    """
     global ASSIGNMENTS
     ASSIGNMENTS = []
     global ASSIGNMENTS_EASY
@@ -121,8 +126,10 @@ def set_vars(course_json, wanted_vars):
 @lti(error=error, request='initial', role='any', app=app)
 def launch(lti=lti):
     """
-    Returns the launch page
+    Runs clearData() to reset any globals that may linger
+    from the page being refreshed.
     request.form will contain all the lti params
+    :returns: launch.htm.j2, the launch page
     """
     clearData()
 
@@ -138,10 +145,16 @@ def launch(lti=lti):
 @app.route('/select_date', methods=['POST'])
 def date_select(lti=lti):
     """
-
+    Receives a form with the selected assignment type.
+    Creates retrieves the Course object from Canvas using the course_id.
+    Populates global ASSIGNMENTS based on the assignment type selected.
+    :returns: date.htm.j2, where the user selects the start date
+        and interval of assignments.
     """
+    session['assignment_type'] = request.form['selection']
 
     cid = session['custom_canvas_course_id']
+    global CANVAS
     course = CANVAS.get_course(course_id=cid)
     course_json = json.loads(course.to_json())
 
@@ -151,8 +164,6 @@ def date_select(lti=lti):
     ]
     # Stores desired variables in global COURSE_DATA
     set_vars(course_json=course_json, wanted_vars=wanted_vars)
-
-    session['assignment_type'] = request.form['selection']
 
     global ASSIGNMENTS
     ASSIGNMENTS = []
